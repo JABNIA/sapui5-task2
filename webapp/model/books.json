@@ -2,43 +2,203 @@
     "books": [
         {
             "id": "B001",
-            "name": "The Midnight Library",
-            "author": "Matt Haig",
-            "genre": "Fantasy",
-            "releasedate": "2020-08-13",
-            "availablequantity": 15
-        },
-        {
-            "id": "B002",
-            "name": "Project Hail Mary",
-            "author": "Andy Weir",
-            "genre": "Science Fiction",
-            "releasedate": "2021-05-04",
-            "availablequantity": 22
-        },
-        {
-            "id": "B003",
-            "name": "Where the Crawdads Sing",
-            "author": "Delia Owens",
-            "genre": "Mystery",
-            "releasedate": "2018-08-14",
-            "availablequantity": 9
-        },
-        {
-            "id": "B004",
-            "name": "Atomic Habits",
-            "author": "James Clear",
-            "genre": "Self-Help",
-            "releasedate": "2018-10-16",
-            "availablequantity": 35
-        },
-        {
-            "id": "B005",
             "name": "The Silent Patient",
             "author": "Alex Michaelides",
             "genre": "Thriller",
             "releasedate": "2019-02-05",
             "availablequantity": 18
+        },
+        {
+            "id": "B002",
+            "name": "Where the Crawdads Sing",
+            "author": "Delia Owens",
+            "genre": "Mystery",
+            "releasedate": "2018-08-14",
+            "availablequantity": 25
+        },
+        {
+            "id": "B003",
+            "name": "Project Hail Mary",
+            "author": "Andy Weir",
+            "genre": "Science Fiction",
+            "releasedate": "2021-05-04",
+            "availablequantity": 12
+        },
+        {
+            "id": "B004",
+            "name": "The Midnight Library",
+            "author": "Matt Haig",
+            "genre": "Fantasy",
+            "releasedate": "2020-08-13",
+            "availablequantity": 20
+        },
+        {
+            "id": "B005",
+            "name": "Atomic Habits",
+            "author": "James Clear",
+            "genre": "Self-Help",
+            "releasedate": "2018-10-16",
+            "availablequantity": 30
+        },
+        {
+            "id": "B006",
+            "name": "The Song of Achilles",
+            "author": "Madeline Miller",
+            "genre": "Historical Fiction",
+            "releasedate": "2011-09-20",
+            "availablequantity": 14
+        },
+        {
+            "id": "B007",
+            "name": "Dune",
+            "author": "Frank Herbert",
+            "genre": "Science Fiction",
+            "releasedate": "1965-08-01",
+            "availablequantity": 10
+        },
+        {
+            "id": "B008",
+            "name": "Educated",
+            "author": "Tara Westover",
+            "genre": "Memoir",
+            "releasedate": "2018-02-20",
+            "availablequantity": 22
+        },
+        {
+            "id": "B009",
+            "name": "The Night Circus",
+            "author": "Erin Morgenstern",
+            "genre": "Fantasy",
+            "releasedate": "2011-09-13",
+            "availablequantity": 16
+        },
+        {
+            "id": "B010",
+            "name": "The Girl on the Train",
+            "author": "Paula Hawkins",
+            "genre": "Thriller",
+            "releasedate": "2015-01-13",
+            "availablequantity": 19
+        },
+        {
+            "id": "B011",
+            "name": "Circe",
+            "author": "Madeline Miller",
+            "genre": "Fantasy",
+            "releasedate": "2018-04-10",
+            "availablequantity": 21
+        },
+        {
+            "id": "B012",
+            "name": "It Ends with Us",
+            "author": "Colleen Hoover",
+            "genre": "Romance",
+            "releasedate": "2016-08-02",
+            "availablequantity": 28
+        },
+        {
+            "id": "B013",
+            "name": "The Alchemist",
+            "author": "Paulo Coelho",
+            "genre": "Fiction",
+            "releasedate": "1988-05-01",
+            "availablequantity": 26
+        },
+        {
+            "id": "B014",
+            "name": "A Court of Thorns and Roses",
+            "author": "Sarah J. Maas",
+            "genre": "Fantasy",
+            "releasedate": "2015-05-05",
+            "availablequantity": 24
+        },
+        {
+            "id": "B015",
+            "name": "The Hunger Games",
+            "author": "Suzanne Collins",
+            "genre": "Dystopian",
+            "releasedate": "2008-09-14",
+            "availablequantity": 35
+        },
+        {
+            "id": "B016",
+            "name": "The Catcher in the Rye",
+            "author": "J.D. Salinger",
+            "genre": "Classic",
+            "releasedate": "1951-07-16",
+            "availablequantity": 17
+        },
+        {
+            "id": "B017",
+            "name": "1984",
+            "author": "George Orwell",
+            "genre": "Dystopian",
+            "releasedate": "1949-06-08",
+            "availablequantity": 29
+        },
+        {
+            "id": "B018",
+            "name": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "genre": "Classic",
+            "releasedate": "1960-07-11",
+            "availablequantity": 23
+        },
+        {
+            "id": "B019",
+            "name": "The Book Thief",
+            "author": "Markus Zusak",
+            "genre": "Historical Fiction",
+            "releasedate": "2005-03-14",
+            "availablequantity": 18
+        },
+        {
+            "id": "B020",
+            "name": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "genre": "Classic",
+            "releasedate": "1925-04-10",
+            "availablequantity": 20
+        },
+        {
+            "id": "B021",
+            "name": "The Seven Husbands of Evelyn Hugo",
+            "author": "Taylor Jenkins Reid",
+            "genre": "Fiction",
+            "releasedate": "2017-06-13",
+            "availablequantity": 27
+        },
+        {
+            "id": "B022",
+            "name": "The Subtle Art of Not Giving a F*ck",
+            "author": "Mark Manson",
+            "genre": "Self-Help",
+            "releasedate": "2016-09-13",
+            "availablequantity": 31
+        },
+        {
+            "id": "B023",
+            "name": "The Martian",
+            "author": "Andy Weir",
+            "genre": "Science Fiction",
+            "releasedate": "2014-02-11",
+            "availablequantity": 15
+        },
+        {
+            "id": "B024",
+            "name": "Gone Girl",
+            "author": "Gillian Flynn",
+            "genre": "Thriller",
+            "releasedate": "2012-06-05",
+            "availablequantity": 22
+        },
+        {
+            "id": "B025",
+            "name": "The House in the Cerulean Sea",
+            "author": "TJ Klune",
+            "genre": "Fantasy",
+            "releasedate": "2020-03-17",
+            "availablequantity": 19
         }
     ]
 }
