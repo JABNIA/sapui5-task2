@@ -17,19 +17,18 @@ sap.ui.define(
                 this.getView().setModel(oBookModel, "bookData");
 
                 oBookModel.attachRequestCompleted(() => {
-                    
                     const genres = new Set(
                         oBookModel.getData().books.map((book) => book.genre)
                     );
-                    
+
                     const genresArray = Array.from(["All", ...genres]);
-                    
+
                     const oGenreModel = new JSONModel({
                         bookGenres: genresArray.map((genre) => {
                             return { key: genre, text: genre };
                         }),
                     });
-                    
+
                     console.log(oGenreModel);
 
                     this.getView().setModel(oGenreModel, "gernes");
@@ -78,21 +77,42 @@ sap.ui.define(
             onApplyFilters() {
                 const aFilter = [];
                 const sTitle = this.byId("searchInput").getValue();
-                const sSelectedGenre = this.byId("genreSelect").getSelectedKey();
+                const sSelectedGenre =
+                    this.byId("genreSelect").getSelectedKey();
 
-                console.log(sSelectedGenre, sTitle)
+                console.log(sSelectedGenre, sTitle);
                 if (sSelectedGenre && sSelectedGenre !== "All") {
-                    aFilter.push(new Filter("genre", FilterOperator.Contains, sSelectedGenre));
+                    aFilter.push(
+                        new Filter(
+                            "genre",
+                            FilterOperator.Contains,
+                            sSelectedGenre
+                        )
+                    );
                 }
                 if (sTitle) {
-                    aFilter.push(new Filter("name", FilterOperator.Contains, sTitle));
+                    aFilter.push(
+                        new Filter("name", FilterOperator.Contains, sTitle)
+                    );
                 }
 
                 const oList = this.byId("bookTable");
                 const oBinding = oList.getBinding("items");
 
                 oBinding.filter(aFilter);
-            }
-    });
+            },
+            onEditTitle(oEvent) {
+                const bookId = oEvent
+                    .getSource()
+                    .getBindingContext("bookData")
+                    .getObject().id;
+
+                this.getModel("viewModel").setProperty(
+                    "/isVisible",
+                    !this.getModel("viewModel").getProperty("/isVisible")
+                );
+                this.getModel("viewModel").setProperty("/id", bookId);
+            },
+        });
     }
 );
