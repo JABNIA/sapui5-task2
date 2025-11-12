@@ -29,6 +29,9 @@
             <Column>
                 <Text text="Available" />
             </Column>
+            <Column>
+                <Text text="Actions" />
+            </Column>
         </columns>
         <items>
             <ColumnListItem>

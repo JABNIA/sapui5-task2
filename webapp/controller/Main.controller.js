@@ -29,9 +29,15 @@ sap.ui.define(
                         }),
                     });
 
-                    console.log(oGenreModel);
-
                     this.getView().setModel(oGenreModel, "gernes");
+
+                    this.getView().setModel(
+                        new JSONModel({
+                            isVisible: false,
+                            id: "",
+                        }),
+                        "viewModel"
+                    );
                 });
             },
 
@@ -112,6 +118,7 @@ sap.ui.define(
                     !this.getModel("viewModel").getProperty("/isVisible")
                 );
                 this.getModel("viewModel").setProperty("/id", bookId);
+                console.log(this.getModel("viewModel").getData())
             },
         });
     }
