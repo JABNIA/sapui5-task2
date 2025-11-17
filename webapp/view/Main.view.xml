@@ -14,6 +14,36 @@
         <headerToolbar>
             <Toolbar>
                 <Title text="Book List" />
+                <Button
+                    text="Add Record"
+                    press=".onAddRecord"
+                />
+                <Button
+                    text="Delete Delete"
+                    press=".onDeleteRecord"
+                />
+
+                <Input
+                    id="searchInput"
+                    width="40%"
+                />
+
+                <Select
+                    id="genreSelect"
+                    items="{
+                path: 'gernes>/bookGenres'
+            }"
+                    width="10%"
+                >
+                    <core:Item
+                        text="{gernes>key}"
+                        key="{gernes>text}"
+                    />
+                </Select>
+                <Button
+                    text="Filter"
+                    press=".onApplyFilters"
+                />
             </Toolbar>
         </headerToolbar>
         <columns>
@@ -66,36 +96,4 @@
         </items>
     </Table>
     <ToolbarSeparator />
-    <Toolbar>
-        <Button
-            text="Add Record"
-            press=".onAddRecord"
-        />
-        <Button
-            text="Delete Delete"
-            press=".onDeleteRecord"
-        />
-
-        <Input
-            id="searchInput"
-            width="40%"
-        />
-
-        <Select
-            id="genreSelect"
-            items="{
-                path: 'gernes>/bookGenres'
-            }"
-            width="10%"
-        >
-            <core:Item
-                text="{gernes>key}"
-                key="{gernes>text}"
-            />
-        </Select>
-        <Button
-            text="Filter"
-            press=".onApplyFilters"
-        />
-    </Toolbar>
 </mvc:View>

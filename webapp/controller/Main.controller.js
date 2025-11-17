@@ -27,7 +27,7 @@ sap.ui.define(
                         bookGenres: genresArray.map((genre) => {
                             return { key: genre, text: genre };
                         }),
-                    });
+                    });npm
 
                     this.getView().setModel(oGenreModel, "gernes");
 
