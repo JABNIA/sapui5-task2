@@ -1,62 +1,99 @@
-<mvc:View xmlns:core="sap.ui.core" controllerName="project1.controller.Main"
+<mvc:View
+    xmlns:core="sap.ui.core"
+    controllerName="project1.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
+    xmlns="sap.m"
+>
     <Table
-    id="bookTable"
-    mode="MultiSelect"
-    items="{
+        id="bookTable"
+        mode="MultiSelect"
+        items="{
         path: 'bookData>/books'
     }"
     >
         <headerToolbar>
             <Toolbar>
-                <Title text="Book List"/>
+                <Title text="Book List" />
+                <Button
+                    text="Add Record"
+                    press=".onAddRecord"
+                />
+                <Button
+                    text="Delete Delete"
+                    press=".onDeleteRecord"
+                />
+
+                <Input
+                    id="searchInput"
+                    width="40%"
+                />
+
+                <Select
+                    id="genreSelect"
+                    items="{
+                path: 'gernes>/bookGenres'
+            }"
+                    width="10%"
+                >
+                    <core:Item
+                        text="{gernes>key}"
+                        key="{gernes>text}"
+                    />
+                </Select>
+                <Button
+                    text="Filter"
+                    press=".onApplyFilters"
+                />
             </Toolbar>
         </headerToolbar>
         <columns>
             <Column>
-                <Text text="Name"/>
+                <Text text="Name" />
             </Column>
             <Column>
-                <Text text="Author"/>
+                <Text text="Author" />
             </Column>
             <Column>
-                <Text text="Genre"/>
+                <Text text="Genre" />
             </Column>
             <Column>
-                <Text text="Available"/>
+                <Text text="Available" />
+            </Column>
+            <Column>
+                <Text text="Actions" />
             </Column>
         </columns>
         <items>
-            <ColumnListItem >
+            <ColumnListItem>
                 <cells>
-                    <Text text="{bookData>name}"/>
-                    <Text text="{bookData>author}"/>
-                    <Text text="{bookData>genre}"/>
-                    <Text text="{bookData>availablequantity}" />
+                    <HBox>
+                        <Text
+                            text="{bookData>name}"
+                            visible="{= ${viewModel>/id} !== ${bookData>id} ? true : ${viewModel>/isVisible} ? false : true }"
+                        />
+                        <Input
+                            value="{bookData>name}"
+                            visible="{= ${viewModel>/isVisible} &amp;&amp; ${viewModel>/id} === ${bookData>id} }"
+                        />
+                    </HBox>
+                    <HBox>
+                        <Text text="{bookData>author}" />
+                    </HBox>
+                    <HBox>
+                        <Text text="{bookData>genre}" />
+                    </HBox>
+                    <HBox>
+                        <Text text="{bookData>availablequantity}" />
+                    </HBox>
+                    <HBox>
+                        <Button
+                            text="{= ${viewModel>/isVisible} ? ${viewModel>/id} === ${bookData>id} ? 'Save Title' : 'Edit Title'  : 'Edit Title'}"
+                            press=".onEditTitle"
+                        />
+                    </HBox>
                 </cells>
             </ColumnListItem>
         </items>
     </Table>
-    <ToolbarSeparator  />
-    <Toolbar >
-        <Button text="Add Record" 
-            press=".onAddRecord"
-        />
-        <Button text="Delete Delete" 
-        press=".onDeleteRecord"/>
-
-        <Input id="searchInput"  width="40%"/>
-
-        <Select 
-            id="genreSelect" 
-            items= "{
-                path: 'gernes>/bookGenres'
-            }"
-            width="10%"
-        >
-            <core:Item text="{gernes>key}" key="{gernes>text}"/>
-        </Select>
-        <Button text="Filter" press=".onApplyFilters" />
-    </Toolbar>
+    <ToolbarSeparator />
 </mvc:View>
