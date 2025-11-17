@@ -18,7 +18,6 @@
         path: 'bookData>/books'
     }"
         >
-            <ToolbarSeparator />
 
             <headerToolbar>
                 <Toolbar>
@@ -31,6 +30,8 @@
                         text="Delete Delete"
                         press=".onDeleteRecord"
                     />
+
+                    <ToolbarSeparator />
 
                     <Input
                         id="searchInput"
@@ -55,7 +56,6 @@
                     />
                 </Toolbar>
             </headerToolbar>
-            <ToolbarSeparator />
             <columns>
                 <Column>
                     <Text text="Name" />
