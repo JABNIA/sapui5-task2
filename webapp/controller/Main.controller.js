@@ -27,8 +27,8 @@ sap.ui.define(
                         bookGenres: genresArray.map((genre) => {
                             return { key: genre, text: genre };
                         }),
-                    });npm
-
+                    });
+                    console.log(oGenreModel.getData());
                     this.getView().setModel(oGenreModel, "gernes");
 
                     this.getView().setModel(
@@ -38,6 +38,7 @@ sap.ui.define(
                         }),
                         "viewModel"
                     );
+
                 });
             },
 
