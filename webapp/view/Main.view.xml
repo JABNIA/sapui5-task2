@@ -4,96 +4,106 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
 >
-    <Table
-        id="bookTable"
-        mode="MultiSelect"
-        items="{
+    <Page
+        id="TableWrapper"
+        showHeader="false"
+        enableScrolling="true"
+        class="sapUiContentPadding"
+        showNavButton="false"
+    >
+        <Table
+            id="bookTable"
+            mode="MultiSelect"
+            items="{
         path: 'bookData>/books'
     }"
-    >
-        <headerToolbar>
-            <Toolbar>
-                <Title text="Book List" />
-                <Button
-                    text="Add Record"
-                    press=".onAddRecord"
-                />
-                <Button
-                    text="Delete Delete"
-                    press=".onDeleteRecord"
-                />
+        >
+            <ToolbarSeparator />
 
-                <Input
-                    id="searchInput"
-                    width="40%"
-                />
+            <headerToolbar>
+                <Toolbar>
+                    <Title text="Book List" />
+                    <Button
+                        text="Add Record"
+                        press=".onAddRecord"
+                    />
+                    <Button
+                        text="Delete Delete"
+                        press=".onDeleteRecord"
+                    />
 
-                <Select
-                    id="genreSelect"
-                    items="{
+                    <Input
+                        id="searchInput"
+                        width="40%"
+                    />
+
+                    <Select
+                        id="genreSelect"
+                        items="{
                 path: 'gernes>/bookGenres'
             }"
-                    width="10%"
-                >
-                    <core:Item
-                        text="{gernes>key}"
-                        key="{gernes>text}"
+                        width="10%"
+                    >
+                        <core:Item
+                            text="{gernes>key}"
+                            key="{gernes>text}"
+                        />
+                    </Select>
+                    <Button
+                        text="Filter"
+                        press=".onApplyFilters"
                     />
-                </Select>
-                <Button
-                    text="Filter"
-                    press=".onApplyFilters"
-                />
-            </Toolbar>
-        </headerToolbar>
-        <columns>
-            <Column>
-                <Text text="Name" />
-            </Column>
-            <Column>
-                <Text text="Author" />
-            </Column>
-            <Column>
-                <Text text="Genre" />
-            </Column>
-            <Column>
-                <Text text="Available" />
-            </Column>
-            <Column>
-                <Text text="Actions" />
-            </Column>
-        </columns>
-        <items>
-            <ColumnListItem>
-                <cells>
-                    <HBox>
-                        <Text
-                            text="{bookData>name}"
-                            visible="{= ${viewModel>/id} !== ${bookData>id} ? true : ${viewModel>/isVisible} ? false : true }"
-                        />
-                        <Input
-                            value="{bookData>name}"
-                            visible="{= ${viewModel>/isVisible} &amp;&amp; ${viewModel>/id} === ${bookData>id} }"
-                        />
-                    </HBox>
-                    <HBox>
-                        <Text text="{bookData>author}" />
-                    </HBox>
-                    <HBox>
-                        <Text text="{bookData>genre}" />
-                    </HBox>
-                    <HBox>
-                        <Text text="{bookData>availablequantity}" />
-                    </HBox>
-                    <HBox>
-                        <Button
-                            text="{= ${viewModel>/isVisible} ? ${viewModel>/id} === ${bookData>id} ? 'Save Title' : 'Edit Title'  : 'Edit Title'}"
-                            press=".onEditTitle"
-                        />
-                    </HBox>
-                </cells>
-            </ColumnListItem>
-        </items>
-    </Table>
-    <ToolbarSeparator />
+                </Toolbar>
+            </headerToolbar>
+            <ToolbarSeparator />
+            <columns>
+                <Column>
+                    <Text text="Name" />
+                </Column>
+                <Column>
+                    <Text text="Author" />
+                </Column>
+                <Column>
+                    <Text text="Genre" />
+                </Column>
+                <Column>
+                    <Text text="Available" />
+                </Column>
+                <Column>
+                    <Text text="Actions" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <HBox>
+                            <Text
+                                text="{bookData>name}"
+                                visible="{= ${viewModel>/id} !== ${bookData>id} ? true : ${viewModel>/isVisible} ? false : true }"
+                            />
+                            <Input
+                                value="{bookData>name}"
+                                visible="{= ${viewModel>/isVisible} &amp;&amp; ${viewModel>/id} === ${bookData>id} }"
+                            />
+                        </HBox>
+                        <HBox>
+                            <Text text="{bookData>author}" />
+                        </HBox>
+                        <HBox>
+                            <Text text="{bookData>genre}" />
+                        </HBox>
+                        <HBox>
+                            <Text text="{bookData>availablequantity}" />
+                        </HBox>
+                        <HBox>
+                            <Button
+                                text="{= ${viewModel>/isVisible} ? ${viewModel>/id} === ${bookData>id} ? 'Save Title' : 'Edit Title'  : 'Edit Title'}"
+                                press=".onEditTitle"
+                            />
+                        </HBox>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
 </mvc:View>

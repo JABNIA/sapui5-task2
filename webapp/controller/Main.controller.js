@@ -47,12 +47,12 @@ sap.ui.define(
                 const aBooks = oModel.getProperty("/books");
 
                 const oNewRow = {
-                    id: "",
+                    id: `B0${aBooks.length + 1}`,
                     name: "",
                     author: "",
                     genre: "",
                     releasedate: "",
-                    availablequantity: 0,
+                    availablequantity: "",
                 };
 
                 aBooks.push(oNewRow);
