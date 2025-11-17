@@ -1,1 +1,7 @@
-/* Enter your custom styles here */
+#TableWrapper {
+    scrollbar-width: none;
+}
+
+#TableWrapper::-webkit-scrollbar {
+    display: none;
+}
