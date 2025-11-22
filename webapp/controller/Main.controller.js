@@ -4,8 +4,9 @@ sap.ui.define(
         "sap/ui/model/json/JSONModel",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
+        "sap/ui/model/resource/ResourceModel",
     ],
-    (BaseController, JSONModel, Filter, FilterOperator) => {
+    (BaseController, JSONModel, Filter, FilterOperator, ResourceModel) => {
         "use strict";
 
         return BaseController.extend("project1.controller.Main", {
@@ -28,7 +29,7 @@ sap.ui.define(
                             return { key: genre, text: genre };
                         }),
                     });
-                    
+
                     this.getView().setModel(oGenreModel, "gernes");
 
                     this.getView().setModel(
@@ -38,8 +39,12 @@ sap.ui.define(
                         }),
                         "viewModel"
                     );
-
                 });
+                // const i18nModel = new ResourceModel({
+                //     bundlename: "project1.i18n.i18n",
+                // })
+
+                // this.getView().setModel(i18nModel, "i18n");
             },
 
             onAddRecord() {
@@ -48,16 +53,25 @@ sap.ui.define(
 
                 const oNewRow = {
                     id: `B0${aBooks.length + 1}`,
-                    name: "",
-                    author: "",
-                    genre: "",
-                    releasedate: "",
-                    availablequantity: "",
+                    name: this.byId("bookName").getValue(),
+                    author: this.byId("bookAuthor").getValue(),
+                    genre: this.byId("bookGenre").getValue(),
+                    releasedate: this.byId("bookReleaseDate").getValue(),
+                    availablequantity: this.byId("bookAvailableQuantity").getValue(),
                 };
+                if(
+                    !oNewRow.name ||
+                    !oNewRow.author ||
+                    !oNewRow.genre ||
+                    !oNewRow.releasedate ||
+                    !oNewRow.availablequantity
+                ) return;
 
+                
                 aBooks.push(oNewRow);
                 oModel.setProperty("/books", aBooks);
                 this.getView().setModel(oModel, "bookData");
+                this.AddRecordDialog.close();
             },
 
             onDeleteRecord() {
@@ -79,6 +93,7 @@ sap.ui.define(
                 oModel.setProperty("/books", filteredBooks);
 
                 this.getView().setModel(oModel, "bookData");
+                this.oDeleteDialog.close();
             },
 
             onApplyFilters() {
@@ -108,6 +123,7 @@ sap.ui.define(
 
                 oBinding.filter(aFilter);
             },
+
             onEditTitle(oEvent) {
                 const bookId = oEvent
                     .getSource()
@@ -119,7 +135,34 @@ sap.ui.define(
                     !this.getModel("viewModel").getProperty("/isVisible")
                 );
                 this.getModel("viewModel").setProperty("/id", bookId);
-                console.log(this.getModel("viewModel").getData())
+                console.log(this.getModel("viewModel").getData());
+            },
+
+            async onOpenDeleteDialog() {
+                this.oDeleteDialog ??= await this.loadFragment({
+                    name: "project1.view.DeleteDialog",
+                });
+
+                this.oDeleteDialog.open();
+            },
+
+            onCloseDialog(oEvent) {
+                const dyalogType = oEvent.getSource().data("dialogType");
+
+                if (dyalogType === "Delete") {
+                    this.oDeleteDialog.close();
+                }
+                if (dyalogType === "AddRecord") {
+                    this.AddRecordDialog.close();
+                }
+            },
+
+            async onOpenAddRecordDialog() {
+                this.AddRecordDialog ??= await this.loadFragment({
+                    name: "project1.view.AddRecordDialog",
+                });
+
+                this.AddRecordDialog.open();
             },
         });
     }

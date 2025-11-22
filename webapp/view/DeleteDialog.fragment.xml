@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+>
+    <Dialog
+        id="helloDialog"
+        title="{i18n>deleteMessage}"
+        contentWidth="25%"
+    >
+        <beginButton>
+            <Button
+                text="{i18n>yes}"
+                press=".onDeleteRecord"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                text="{i18n>no}"
+                press=".onCloseDialog"
+                app:dialogType="Delete"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
