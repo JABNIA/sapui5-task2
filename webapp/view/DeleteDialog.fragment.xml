@@ -4,7 +4,6 @@
 >
     <Dialog
         id="helloDialog"
-        title="Are you sure you want to delete selected records?"
         contentWidth="25%"
     >
         <content>
