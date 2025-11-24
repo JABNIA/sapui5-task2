@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="helloDialog"
+        contentWidth="25%"
+    >
+        <content>
+            <Text text="Are you sure you want to delete selected records?" />
+        </content>
+
+        <beginButton>
+            <Button
+                text="Yes"
+                press=".onDeleteRecord"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                text="No"
+                press=".onCloseDialog"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

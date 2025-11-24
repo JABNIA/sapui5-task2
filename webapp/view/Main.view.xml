@@ -18,7 +18,6 @@
         path: 'bookData>/books'
     }"
         >
-
             <headerToolbar>
                 <Toolbar>
                     <Title text="Book List" />
@@ -27,8 +26,8 @@
                         press=".onAddRecord"
                     />
                     <Button
-                        text="Delete Delete"
-                        press=".onDeleteRecord"
+                        text="Delete Record"
+                        press=".onOpenDialog"
                     />
 
                     <ToolbarSeparator />
