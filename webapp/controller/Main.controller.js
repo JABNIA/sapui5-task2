@@ -4,8 +4,9 @@ sap.ui.define(
         "sap/ui/model/json/JSONModel",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
+        "sap/m/MessageToast"
     ],
-    (BaseController, JSONModel, Filter, FilterOperator) => {
+    (BaseController, JSONModel, Filter, FilterOperator, MessageToast) => {
         "use strict";
 
         return BaseController.extend("project1.controller.Main", {
@@ -53,13 +54,37 @@ sap.ui.define(
                     releasedate: this.byId("bookReleaseDate").getValue(),
                     availablequantity: this.byId("bookAvailableQuantity").getValue(),
                 };
+
+                this.byId("bookName").setValue("")
+                this.byId("bookAuthor").setValue("")
+                this.byId("bookGenre").setValue("")
+                this.byId("bookReleaseDate").setValue("")
+                this.byId("bookAvailableQuantity").setValue("")
+
                 if(
                     !oNewRow.name ||
                     !oNewRow.author ||
                     !oNewRow.genre ||
                     !oNewRow.releasedate ||
                     !oNewRow.availablequantity
-                ) return;
+                ) {
+                    if(oNewRow.name === ""){
+                        MessageToast.show("Please fill Name field")
+                    }
+                    if(oNewRow.author === ""){
+                        MessageToast.show("Please fill Author field")
+                    }
+                    if(oNewRow.genre === ""){
+                        MessageToast.show("Please fill Gerne field")
+                    }
+                    if(oNewRow.releasedate === ""){
+                        MessageToast.show("Please fill Release Date field")
+                    }
+                    if(oNewRow.availablequantity === ""){
+                        MessageToast.show("Please fill Available Quantity field")
+                    }
+                    return;
+                }
 
                 
                 aBooks.push(oNewRow);
