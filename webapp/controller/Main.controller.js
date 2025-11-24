@@ -55,11 +55,11 @@ sap.ui.define(
                     availablequantity: this.byId("bookAvailableQuantity").getValue(),
                 };
 
-                this.byId("bookName").setValue("")
-                this.byId("bookAuthor").setValue("")
-                this.byId("bookGenre").setValue("")
-                this.byId("bookReleaseDate").setValue("")
-                this.byId("bookAvailableQuantity").setValue("")
+                this.byId("bookName").setValue("");
+                this.byId("bookAuthor").setValue("");
+                this.byId("bookGenre").setValue("");
+                this.byId("bookReleaseDate").setValue("");
+                this.byId("bookAvailableQuantity").setValue("");
 
                 if(
                     !oNewRow.name ||
