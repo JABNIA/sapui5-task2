@@ -77,17 +77,27 @@ sap.ui.define(
                         return item.getBindingContext("bookData").getObject()
                             .id;
                     });
+                console.log(oSelectedItemsId)
 
-                const filteredBooks = oBooks.filter((book) => {
+                if(oSelectedItemsId.length === 0) {
+                    
+                    this.oDeleteDialog.close();
+                    
+                    alert("First please select Record You want to delete")
+                    
+                    return;
+                }
+                                const filteredBooks = oBooks.filter((book) => {
                     return !oSelectedItemsId.includes(book.id);
                 });
-
+                
                 const oModel = new JSONModel();
-
+                
                 oModel.setProperty("/books", filteredBooks);
-
+                
                 this.getView().setModel(oModel, "bookData");
-                this.oDialog.close();
+
+                this.oDeleteDialog.close();
             },
 
             onApplyFilters() {
