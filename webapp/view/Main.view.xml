@@ -42,7 +42,7 @@
                         />
                     </Select>
                     <Button
-                        text="Filter"
+                        text="{i18n>filter}"
                         press=".onApplyFilters"
                     />
                 </Toolbar>

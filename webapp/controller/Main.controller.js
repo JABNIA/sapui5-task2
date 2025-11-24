@@ -4,9 +4,9 @@ sap.ui.define(
         "sap/ui/model/json/JSONModel",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
-        "sap/ui/model/resource/ResourceModel",
+        "sap/m/MessageToast",
     ],
-    (BaseController, JSONModel, Filter, FilterOperator, ResourceModel) => {
+    (BaseController, JSONModel, Filter, FilterOperator, MessageToast) => {
         "use strict";
 
         return BaseController.extend("project1.controller.Main", {
@@ -52,17 +52,54 @@ sap.ui.define(
                     author: this.byId("bookAuthor").getValue(),
                     genre: this.byId("bookGenre").getValue(),
                     releasedate: this.byId("bookReleaseDate").getValue(),
-                    availablequantity: this.byId("bookAvailableQuantity").getValue(),
+                    availablequantity: this.byId(
+                        "bookAvailableQuantity"
+                    ).getValue(),
                 };
-                if(
+
+                if (
                     !oNewRow.name ||
                     !oNewRow.author ||
                     !oNewRow.genre ||
                     !oNewRow.releasedate ||
                     !oNewRow.availablequantity
-                ) return;
+                ) {
+                    const oBundle = this.getView()
+                        .getModel("i18n")
+                        .getResourceBundle();
 
-                
+                    if (oNewRow.name === "") {
+                        const msg = oBundle.getText("warningNameField");
+                        console.log(msg);
+                        MessageToast.show(`${msg}`);
+                    }
+                    if (oNewRow.author === "") {
+                        const msg = oBundle.getText("warningAuthorField");
+                        MessageToast.show(`${msg}`);
+                    }
+                    if (oNewRow.genre === "") {
+                        const msg = oBundle.getText("warningGenreField");
+                        MessageToast.show(`${msg}`);
+                    }
+                    if (oNewRow.releasedate === "") {
+                        const msg = oBundle.getText("warningReleaseDateField");
+                        MessageToast.show(`${msg}`);
+                    }
+                    if (oNewRow.availablequantity === "") {
+                        const msg = oBundle.getText(
+                            "warningAvailableQuantityField"
+                        );
+                        MessageToast.show(`${msg}`);
+                    }
+                    return;
+                }
+
+                this.byId("bookName").setValue("");
+                this.byId("bookAuthor").setValue("");
+                this.byId("bookGenre").setValue("");
+                this.byId("bookReleaseDate").setValue("");
+                this.byId("bookAvailableQuantity").setValue("");
+
                 aBooks.push(oNewRow);
                 oModel.setProperty("/books", aBooks);
                 this.getView().setModel(oModel, "bookData");
@@ -78,17 +115,15 @@ sap.ui.define(
                         return item.getBindingContext("bookData").getObject()
                             .id;
                     });
-                console.log(oSelectedItemsId)
+                console.log(oSelectedItemsId);
 
-                if(oSelectedItemsId.length === 0) {
-                    
+                if (oSelectedItemsId.length === 0) {
                     this.oDeleteDialog.close();
-                    
-                    alert("First please select Record You want to delete")
-                    
+
+                    alert("First please select Record You want to delete");
+
                     return;
                 }
-
                 const filteredBooks = oBooks.filter((book) => {
                     return !oSelectedItemsId.includes(book.id);
                 });
@@ -99,7 +134,7 @@ sap.ui.define(
                 oModel.setProperty("/books", filteredBooks);
                 
                 this.getView().setModel(oModel, "bookData");
-                // this.getView().addDependent(this.oDeleteDialog);
+
                 this.oDeleteDialog.close();
             },
 
