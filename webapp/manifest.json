@@ -78,16 +78,21 @@
                 "type": "sap.ui.model.odata.v2.ODataModel",
                 "dataSource": "ODataV2",
                 "settings": {
-                    "defaultBindingMode": "TwoWay",
-                    "defaultCountMode": "Inline",
-                    "useBatch": true
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true,
+                    "defaultBindingMode": "TwoWay"
                 }
             },
             "ODataV4": {
                 "type": "sap.ui.model.odata.v4.ODataModel",
                 "dataSource": "ODataV4",
                 "settings": {
-                    "synchronizationMode": "None"
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
                 }
             }
         },
