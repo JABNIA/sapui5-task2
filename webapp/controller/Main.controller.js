@@ -205,7 +205,7 @@ sap.ui.define(
                 });
 
                 this.AddRecordDialog.open();
-            },
+            }
         });
     }
 );
