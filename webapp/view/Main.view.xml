@@ -122,6 +122,7 @@
                 <IconTabFilter text="{i18n>odataV2}">
                     <Table
                         id="productTable"
+                        mode="MultiSelect"
                         items="{
                         path: 'ODataV2>/Products',
                         parameters: {
@@ -129,6 +130,11 @@
                         }
                     }"
                     >
+                    <headerToolbar>
+                        <Toolbar >
+                            <Button text="{i18n>deleteRecord}" press=".onDeleteV2Record"/>
+                        </Toolbar>
+                    </headerToolbar>
                         <columns>
                             <Column>
                                 <Text text="{i18n>products}" />
@@ -177,6 +183,7 @@
                 <IconTabFilter text="{i18n>odataV4}">
                     <Table
                         id="V4dataTable"
+                        mode="MultiSelect"
                         items="{
                             path: 'ODataV4>/Products',
                             parameters: {

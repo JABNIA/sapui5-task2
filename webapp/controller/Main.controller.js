@@ -5,8 +5,9 @@ sap.ui.define(
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
         "sap/m/MessageToast",
+        "sap/m/MessageBox"
     ],
-    (BaseController, JSONModel, Filter, FilterOperator, MessageToast) => {
+    (BaseController, JSONModel, Filter, FilterOperator, MessageToast, MessageBox) => {
         "use strict";
 
         return BaseController.extend("project1.controller.Main", {
@@ -205,6 +206,36 @@ sap.ui.define(
                 });
 
                 this.AddRecordDialog.open();
+            }, 
+            onDeleteV2Record() {
+                const oTable = this.byId("productTable");
+                const itemIdArr = oTable.getSelectedItems().map(item => {
+                    return item.getBindingContext("ODataV2").getObject()["ID"]
+                })
+                const oModel = this.getModel("ODataV2");
+                
+                itemIdArr.forEach(id => {
+                    const sPath = `/Products(${id})`;
+
+                    oModel.remove(sPath, {
+                        success: () => {
+                            const oBundle = this.getView()
+                            .getModel("i18n")
+                            .getResourceBundle();
+                            const msg = oBundle.getText("successMessage")
+                            MessageToast.show(`${msg}`)
+                        },
+                        error: () => {
+                            const oBundle = this.getView()
+                            .getModel("i18n")
+                            .getResourceBundle();
+                            const msg = oBundle.getText("errorMessage")
+                            MessageBox.error(`${msg}`)
+                            MessageToast.show("something went wrong")
+                        }
+                    })
+
+                })
             }
         });
     }
