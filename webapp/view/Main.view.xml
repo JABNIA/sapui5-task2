@@ -132,6 +132,7 @@
                     >
                     <headerToolbar>
                         <Toolbar >
+                            <Button text="{i18n>addRecord}" press=".onOpenAddV2RecordFragment" />
                             <Button text="{i18n>deleteRecord}" press=".onDeleteV2Record"/>
                         </Toolbar>
                     </headerToolbar>
