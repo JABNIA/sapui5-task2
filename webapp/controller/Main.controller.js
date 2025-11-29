@@ -252,7 +252,6 @@ sap.ui.define(
             async onAddV2Record () {
                 const oBundle = this.getModel("i18n").getResourceBundle()
                 const oModel = this.getModel("ODataV2")
-                console.log(this.byId("ProductReleaseDate").getDateValue())
                 const newEntityObj = {
                     Name: this.byId("ProductName").getValue(),
                     ReleaseDate: `/Date(${ new Date(this.byId("ProductReleaseDate").getDateValue()).getTime() })/`,
@@ -261,7 +260,7 @@ sap.ui.define(
                     Rating: this.byId("ProductRating").getValue(),
                     Price: this.byId("ProductPrice").getValue()
                 }
-                console.log(`/Date(${ new Date(this.byId("ProductReleaseDate").getDateValue()).getTime() })/`)
+
                 if (!newEntityObj.Name) {
                     MessageToast.show(oBundle.getText("pleaseEnterProductName"))
                     return;
@@ -270,7 +269,7 @@ sap.ui.define(
                     MessageToast.show(oBundle.getText("pleaseEnterProductDescription"))
                     return;
                 }
-                if (newEntityObj.ReleaseDate === "/Date(0)/" ) {
+                if (newEntityObj.ReleaseDate === "/Date()/" ) {
                     MessageToast.show(oBundle.getText("pleaseEnterProductReleaseDate"))
                     return;
                 }
