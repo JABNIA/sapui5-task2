@@ -14,7 +14,7 @@
         >
             <Label
                 labelFor="ProductName"
-                text="{i18n>productName}"
+                text="{i18n>EnterProductName}"
             />
             <Input
                 id="ProductName"
@@ -22,7 +22,7 @@
             />
             <Label
                 labelFor="ProductDescription"
-                text="{i18n>description}"
+                text="{i18n>EnterProductDescription}"
             />
             <Input
                 id="ProductDescription"
@@ -30,7 +30,7 @@
             />
             <Label
                 labelFor="ProductReleaseDate"
-                text="{i18n>releaseDate}"
+                text="{i18n>EnterProductReleaseDate}"
             />
             <DatePicker
                 id="ProductReleaseDate"
@@ -44,7 +44,7 @@
             />
             <Label
                 labelFor="ProductRating"
-                text="{i18n>rating}"
+                text="{i18n>EnterProductRating}"
             />
             <Input
                 id="ProductRating"
@@ -52,7 +52,7 @@
             />
             <Label
                 labelFor="ProductPrice"
-                text="{i18n>price}"
+                text="{i18n>EnterProductPrice}"
             />
             <Input
                 id="ProductPrice"
