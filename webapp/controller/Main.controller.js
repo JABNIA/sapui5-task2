@@ -297,12 +297,16 @@ sap.ui.define(
                     )
                         oModel.submitChanges();
 
-                        this.byId("ProductName").setValue("")
-                        this.byId("ProductReleaseDate").setValue("")
-                        this.byId("ProductDiscontinuedDate").setValue("")
-                        this.byId("ProductDescription").setValue("")
-                        this.byId("ProductRating").setValue("")
-                        this.byId("ProductPrice").setValue("")
+                        const fieldArr = [
+                            this.byId("ProductName"),
+                            this.byId("ProductReleaseDate"),
+                            this.byId("ProductDiscontinuedDate"),
+                            this.byId("ProductDescription"),
+                            this.byId("ProductRating"),
+                            this.byId("ProductPrice")
+                        ]
+
+                        fieldArr.forEach(field => field.setValue("")) 
 
                         this.AddV2RecordDialog.close()
                     }
