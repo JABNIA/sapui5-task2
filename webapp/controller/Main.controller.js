@@ -276,6 +276,8 @@ sap.ui.define(
                         Price: this.byId("ProductPrice").getValue(),
                     };
 
+                    if (this.validateV2Record(updatedData) !== true) return;
+
                     oModel.update(`/Products(${editableId})`, updatedData, {
                         success: () => {
                             MessageToast.show("Product updated successfully");
@@ -284,7 +286,18 @@ sap.ui.define(
                                 { isEditMode: false, editableId: 0 },
                                 "EditMode"
                             );
+                                
+                            const fieldArr = [
+                                this.byId("ProductName"),
+                                this.byId("ProductReleaseDate"),
+                                this.byId("ProductDiscontinuedDate"),
+                                this.byId("ProductDescription"),
+                                this.byId("ProductRating"),
+                                this.byId("ProductPrice"),
+                            ];
 
+                            fieldArr.forEach((field) => field.setValue(""));
+                            
                             this.AddV2RecordDialog.close();
                         },
                         error: () => {
@@ -307,36 +320,7 @@ sap.ui.define(
                     Price: this.byId("ProductPrice").getValue(),
                 };
 
-                if (!newEntityObj.Name) {
-                    MessageToast.show(
-                        oBundle.getText("pleaseEnterProductName")
-                    );
-                    return;
-                }
-                if (!newEntityObj.Description) {
-                    MessageToast.show(
-                        oBundle.getText("pleaseEnterProductDescription")
-                    );
-                    return;
-                }
-                if (newEntityObj.ReleaseDate === "/Date()/") {
-                    MessageToast.show(
-                        oBundle.getText("pleaseEnterProductReleaseDate")
-                    );
-                    return;
-                }
-                if (!newEntityObj.Rating) {
-                    MessageToast.show(
-                        oBundle.getText("pleaseEnterProductRating")
-                    );
-                    return;
-                }
-                if (!newEntityObj.Price) {
-                    MessageToast.show(
-                        oBundle.getText("pleaseEnterProductPrice")
-                    );
-                    return;
-                }
+                if (this.validateV2Record(newEntityObj) !== true) return;
 
                 oModel.read("/Products", {
                     success: (oData) => {
@@ -395,8 +379,7 @@ sap.ui.define(
                                 return date.join("") 
                             
                             }
-                        console.log(formatRD(), formatDD())
-
+                            
                         this.byId("ProductName").setValue(oData.Name);
                         this.byId("ProductDescription").setValue(oData.Description);
                         this.byId("ProductReleaseDate").setValue(formatRD());
