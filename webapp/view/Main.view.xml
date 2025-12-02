@@ -153,14 +153,9 @@
                                 <ComboBox
                                     id="sorterSelection"
                                     selectionChange=".onSorterSelect"
-                                    selectedItem="selectColumn"
+                                    placeholder="Please select column"
                                 >
                                     <items>
-                                        <core:Item
-                                            key="selectColumn"
-                                            id="selectColumn"
-                                            text="{i18n>columnSelect}"
-                                        />
                                         <core:Item
                                             key="Name"
                                             id="Name"
