@@ -48,8 +48,10 @@ sap.ui.define(
                         "viewModel"
                     );
 
-                    this.getView().setModel({isEditMode: false, editableId: 0}, "EditMode")
-
+                    this.getView().setModel(
+                        { isEditMode: false, editableId: 0 },
+                        "EditMode"
+                    );
                 });
             },
 
@@ -261,7 +263,7 @@ sap.ui.define(
                 const oBundle = this.getModel("i18n").getResourceBundle();
                 const oModel = this.getModel("ODataV2");
                 const { isEditMode, editableId } = this.getModel("EditMode");
-                
+
                 if (isEditMode) {
                     const updatedData = {
                         Name: this.byId("ProductName").getValue(),
@@ -286,7 +288,7 @@ sap.ui.define(
                                 { isEditMode: false, editableId: 0 },
                                 "EditMode"
                             );
-                                
+
                             const fieldArr = [
                                 this.byId("ProductName"),
                                 this.byId("ProductReleaseDate"),
@@ -297,7 +299,7 @@ sap.ui.define(
                             ];
 
                             fieldArr.forEach((field) => field.setValue(""));
-                            
+
                             this.AddV2RecordDialog.close();
                         },
                         error: () => {
@@ -360,39 +362,68 @@ sap.ui.define(
 
             async onOpenEditV2Record(oEvent) {
                 const elementId = oEvent.getSource().data("recordId");
-                this.getView().setModel({isEditMode: true, editableId: elementId}, "EditMode")
+                this.getView().setModel(
+                    { isEditMode: true, editableId: elementId },
+                    "EditMode"
+                );
                 const oModel = this.getModel("ODataV2");
 
                 await this.onOpenAddV2RecordFragment();
                 await oModel.read(`/Products(${elementId})`, {
                     success: (oData) => {
                         const formatRD = () => {
-                            const date = new Date(oData.ReleaseDate).toDateString().substring(4).split("");
+                            const date = new Date(oData.ReleaseDate)
+                                .toDateString()
+                                .substring(4)
+                                .split("");
                             date.splice(6, 0, ",");
-                            return date.join("")
-                        }
+                            return date.join("");
+                        };
 
                         const formatDD = () => {
                             if (oData.DiscontinuedDate === "/Date(0)/") return;
-                                const date = new Date(oData.DiscontinuedDate).toDateString().substring(4).split("")
-                                date.splice(6, 0, ",")
-                                return date.join("") 
-                            
-                            }
-                            
+                            const date = new Date(oData.DiscontinuedDate)
+                                .toDateString()
+                                .substring(4)
+                                .split("");
+                            date.splice(6, 0, ",");
+                            return date.join("");
+                        };
+
                         this.byId("ProductName").setValue(oData.Name);
-                        this.byId("ProductDescription").setValue(oData.Description);
+                        this.byId("ProductDescription").setValue(
+                            oData.Description
+                        );
                         this.byId("ProductReleaseDate").setValue(formatRD());
-                        this.byId("ProductDiscontinuedDate").setValue(formatDD());
+                        this.byId("ProductDiscontinuedDate").setValue(
+                            formatDD()
+                        );
                         this.byId("ProductRating").setValue(oData.Rating);
                         this.byId("ProductPrice").setValue(oData.Price);
                     },
                     error: () => {
-                        MessageBox.error(this.i18n("productDataCanNotLoad")) 
-                    }
-                })
-            }
+                        MessageBox.error(this.i18n("productDataCanNotLoad"));
+                    },
+                });
+            },
+            onInputSearch() {
+                const aFilter = []
+                const searchValue = this.byId("searchField").getValue();
 
+                if (searchValue) {
+                    aFilter.push(new Filter({
+                        path: "Name", 
+                        operator: FilterOperator.Contains, 
+                        value1: searchValue, 
+                        caseSensitive: false
+                    }))
+                }
+                console.log(aFilter)
+                const oList = this.byId("productTable");
+                const oBindign = oList.getBinding("items");
+
+                oBindign.filter(aFilter)
+            }
         });
     }
 );
