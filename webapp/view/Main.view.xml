@@ -131,14 +131,70 @@
                         }
                     }"
                     >
-                    <headerToolbar>
-                        <Toolbar >
-                            <Button text="{i18n>addRecord}" press=".onOpenAddV2RecordFragment" />
-                            <Button text="{i18n>deleteRecord}" press=".onDeleteV2Record"/>
-                            <ToolbarSeparator />
-                            <Input id="searchField" liveChange=".onInputSearch" placeholder="{i18n>searchFieldPlaceholder}" width="60%" />
-                        </Toolbar>
-                    </headerToolbar>
+                        <headerToolbar>
+                            <Toolbar>
+                                <Button
+                                    text="{i18n>addRecord}"
+                                    press=".onOpenAddV2RecordFragment"
+                                />
+                                <Button
+                                    text="{i18n>deleteRecord}"
+                                    press=".onDeleteV2Record"
+                                />
+                                <ToolbarSeparator />
+                                <Input
+                                    id="searchField"
+                                    liveChange=".onInputSearch"
+                                    placeholder="{i18n>searchFieldPlaceholder}"
+                                    width="60%"
+                                />
+                                <ToolbarSeparator />
+
+                                <ComboBox
+                                    id="sorterSelection"
+                                    selectionChange=".onSorterSelect"
+                                    selectedItem="selectColumn"
+                                >
+                                    <items>
+                                        <core:Item
+                                            key="selectColumn"
+                                            id="selectColumn"
+                                            text="{i18n>columnSelect}"
+                                        />
+                                        <core:Item
+                                            key="Name"
+                                            id="Name"
+                                            text="{i18n>products}"
+                                        />
+                                        <core:Item
+                                            key="description"
+                                            id="description"
+                                            text="{i18n>description}"
+                                        />
+                                        <core:Item
+                                            key="releaseDate"
+                                            id="releaseDate"
+                                            text="{i18n>releaseDate}"
+                                        />
+                                        <core:Item
+                                            key="discontiniueDate"
+                                            id="discontinuedDate"
+                                            text="{i18n>discontinuedDate}"
+                                        />
+                                        <core:Item
+                                            key="rating"
+                                            id="rating"
+                                            text="{i18n>rating}"
+                                        />
+                                        <core:Item
+                                            key="price"
+                                            id="price"
+                                            text="{i18n>price}"
+                                        />
+                                    </items>
+                                </ComboBox>
+                            </Toolbar>
+                        </headerToolbar>
                         <columns>
                             <Column>
                                 <Text text="{i18n>products}" />
@@ -183,12 +239,15 @@
                                     <Text text="{ODataV2>Price}" />
                                 </HBox>
                                 <HBox>
-                                    <Button text="edit" press=".onOpenEditV2Record" app:recordId="{ODataV2>ID}"/>
+                                    <Button
+                                        text="edit"
+                                        press=".onOpenEditV2Record"
+                                        app:recordId="{ODataV2>ID}"
+                                    />
                                 </HBox>
                             </ColumnListItem>
                         </items>
                     </Table>
-                    
                 </IconTabFilter>
                 <IconTabFilter text="{i18n>odataV4}">
                     <Table

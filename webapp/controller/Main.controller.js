@@ -6,6 +6,7 @@ sap.ui.define(
         "sap/ui/model/FilterOperator",
         "sap/m/MessageToast",
         "sap/m/MessageBox",
+        "sap/ui/model/Sorter",
     ],
     (
         BaseController,
@@ -13,7 +14,8 @@ sap.ui.define(
         Filter,
         FilterOperator,
         MessageToast,
-        MessageBox
+        MessageBox,
+        Sorter
     ) => {
         "use strict";
 
@@ -406,6 +408,7 @@ sap.ui.define(
                     },
                 });
             },
+
             onInputSearch() {
                 const aFilter = []
                 const searchValue = this.byId("searchField").getValue();
@@ -423,6 +426,40 @@ sap.ui.define(
                 const oBindign = oList.getBinding("items");
 
                 oBindign.filter(aFilter)
+            },
+
+            onSorterSelect() {
+                const oTable = this.byId("productTable");
+                const comboBoxValue = this.byId("sorterSelection").getValue()
+                let sorterValue = "";
+                
+                switch (comboBoxValue){
+                    case this.i18n("products"):
+                        sorterValue = "Name";
+                        break;
+                    case this.i18n("description"):
+                        sorterValue = "Description";
+                        break;
+                    case this.i18n("releaseDate"):
+                        sorterValue = "ReleaseDate";
+                        break;
+                    case this.i18n("discontinuedDate"):
+                        sorterValue = "DiscontinuedDate";
+                        break;
+                    case this.i18n("rating"):
+                        sorterValue = "Rating";
+                        break;
+                    case this.i18n("price"):
+                        sorterValue = "Price";
+                        break;
+                    default:
+                        sorterValue = "";
+                        break;
+                }
+
+                const oSorter = new Sorter({path: sorterValue, descending: false})
+
+                oTable.getBinding("items").sort(oSorter)
             }
         });
     }
