@@ -26,7 +26,7 @@ sap.ui.define(
                 oBookModel.loadData("model/books.json");
 
                 this.getView().setModel(oBookModel, "bookData");
-
+                
                 oBookModel.attachRequestCompleted(() => {
                     const genres = new Set(
                         oBookModel.getData().books.map((book) => book.genre)
@@ -39,22 +39,45 @@ sap.ui.define(
                             return { key: genre, text: genre };
                         }),
                     });
-
                     this.getView().setModel(oGenreModel, "gernes");
-
-                    this.getView().setModel(
-                        new JSONModel({
-                            isVisible: false,
-                            id: "",
-                        }),
-                        "viewModel"
-                    );
-
-                    this.getView().setModel(
-                        { isEditMode: false, editableId: 0 },
-                        "EditMode"
-                    );
                 });
+                const viewModel = new JSONModel({isVisible: false, id: ""});
+
+                this.getView().setModel(viewModel, "viewModel");
+
+                const oEditModel = new JSONModel({edit:{ isEditMode: false, editableId: 0 }});
+
+                this.getView().setModel(oEditModel, "EditMode");
+
+                const hashParameter = window.location.hash;
+
+                if(hashParameter) {
+                    const tabKey = hashParameter.substring(6);
+                    const oTabModel = new JSONModel({ selectedTab: tabKey });
+
+                    this.getView().setModel(
+                        oTabModel, "Selected"
+                    )
+                }else{
+                    const oTabModel = new JSONModel({ selectedTab: "" });
+
+                    this.getView().setModel(
+                        oTabModel, "Selected"
+                    )
+                }
+
+                const oDialogModel= new JSONModel({
+                    record: {
+                        Name: "",
+                        Description: "",
+                        ReleaseDate: "",
+                        DiscontinuedDate: "",
+                        Rating: 0,
+                        Price: 0
+                    }
+                }) 
+
+                this.getView().setModel(oDialogModel, "V2DialogObjectModel")
             },
 
             onAddRecord() {
@@ -109,15 +132,15 @@ sap.ui.define(
                     return;
                 }
 
-                this.byId("bookName").setValue("");
-                this.byId("bookAuthor").setValue("");
-                this.byId("bookGenre").setValue("");
-                this.byId("bookReleaseDate").setValue("");
-                this.byId("bookAvailableQuantity").setValue("");
+                // this.byId("bookName").setValue("");
+                // this.byId("bookAuthor").setValue("");
+                // this.byId("bookGenre").setValue("");
+                // this.byId("bookReleaseDate").setValue("");
+                // this.byId("bookAvailableQuantity").setValue("");
 
-                aBooks.push(oNewRow);
-                oModel.setProperty("/books", aBooks);
-                this.getView().setModel(oModel, "bookData");
+                // aBooks.push(oNewRow);
+                // oModel.setProperty("/books", aBooks);
+                // this.getView().setModel(oModel, "bookData");
                 this.AddRecordDialog.close();
             },
 
@@ -264,9 +287,11 @@ sap.ui.define(
             async onAddV2Record() {
                 const oBundle = this.getModel("i18n").getResourceBundle();
                 const oModel = this.getModel("ODataV2");
-                const { isEditMode, editableId } = this.getModel("EditMode");
-
+                const oEditModel = this.getModel("EditMode")
+                const {isEditMode, editableId} = oEditModel.getProperty("/edit");
+                
                 if (isEditMode) {
+                    const oDialogObjectModel = this.getModel("V2DialogObjectModel");
                     const updatedData = {
                         Name: this.byId("ProductName").getValue(),
                         ReleaseDate: `/Date(${new Date(
@@ -286,21 +311,21 @@ sap.ui.define(
                         success: () => {
                             MessageToast.show("Product updated successfully");
 
+                            oEditModel.setProperty("/edit", {isEditMode: false, editableId: 0})
                             this.getView().setModel(
-                                { isEditMode: false, editableId: 0 },
+                                oEditModel,
                                 "EditMode"
                             );
+                            oDialogObjectModel.setProperty("/record", {
+                                Name: "",
+                                Description: "",
+                                ReleaseDate: "",
+                                DiscontinuedDate: "",
+                                Rating: 0,
+                                Price: 0
+                            });
 
-                            const fieldArr = [
-                                this.byId("ProductName"),
-                                this.byId("ProductReleaseDate"),
-                                this.byId("ProductDiscontinuedDate"),
-                                this.byId("ProductDescription"),
-                                this.byId("ProductRating"),
-                                this.byId("ProductPrice"),
-                            ];
-
-                            fieldArr.forEach((field) => field.setValue(""));
+                            this.getView().setModel(oDialogObjectModel, "V2DialogObjectModel")
 
                             this.AddV2RecordDialog.close();
                         },
@@ -364,49 +389,44 @@ sap.ui.define(
 
             async onOpenEditV2Record(oEvent) {
                 const elementId = oEvent.getSource().data("recordId");
-                this.getView().setModel(
-                    { isEditMode: true, editableId: elementId },
-                    "EditMode"
-                );
+                const editModeModel= this.getModel("EditMode");
+                editModeModel.setProperty("/edit", { isEditMode: true, editableId: elementId });
+
+                this.getView().setModel(editModeModel, "EditMode");
                 const oModel = this.getModel("ODataV2");
 
-                await this.onOpenAddV2RecordFragment();
                 await oModel.read(`/Products(${elementId})`, {
                     success: (oData) => {
-                        const formatRD = () => {
-                            const date = new Date(oData.ReleaseDate)
+                        const formatDate = (date) => {
+
+                            const formatedDate = new Date(date)
                                 .toDateString()
                                 .substring(4)
                                 .split("");
-                            date.splice(6, 0, ",");
-                            return date.join("");
+                            formatedDate.splice(6, 0, ",");
+                            return formatedDate.join("");
                         };
 
-                        const formatDD = () => {
-                            if (oData.DiscontinuedDate === "/Date(0)/") return;
-                            const date = new Date(oData.DiscontinuedDate)
-                                .toDateString()
-                                .substring(4)
-                                .split("");
-                            date.splice(6, 0, ",");
-                            return date.join("");
-                        };
+                        const modelObject = {
+                            Name: oData.Name,
+                            Description: oData.Description,
+                            ReleaseDate: formatDate(oData.ReleaseDate),
+                            DiscontinuedDate: formatDate(oData.DiscontinuedDate),
+                            Rating: oData.Rating,
+                            Price: oData.Price
+                        }
 
-                        this.byId("ProductName").setValue(oData.Name);
-                        this.byId("ProductDescription").setValue(
-                            oData.Description
-                        );
-                        this.byId("ProductReleaseDate").setValue(formatRD());
-                        this.byId("ProductDiscontinuedDate").setValue(
-                            formatDD()
-                        );
-                        this.byId("ProductRating").setValue(oData.Rating);
-                        this.byId("ProductPrice").setValue(oData.Price);
+                        const oObjectModel = this.getModel("V2DialogObjectModel")
+                        oObjectModel.setProperty("/record", modelObject)
+                        this.getView().setModel(oObjectModel, "V2DialogObjectModel")
+                        console.log(oObjectModel.getProperty("/record"))
+                        
                     },
                     error: () => {
                         MessageBox.error(this.i18n("productDataCanNotLoad"));
                     },
                 });
+                await this.onOpenAddV2RecordFragment();
             },
 
             onInputSearch() {
@@ -460,6 +480,20 @@ sap.ui.define(
                 const oSorter = new Sorter({path: sorterValue, descending: true})
 
                 oTable.getBinding("items").sort(oSorter)
+            },
+            
+            onTabPress(oEvent) {
+                
+                const sTabKey = oEvent.getParameters().key
+                const oRouter = this.getOwnerComponent().getRouter().navTo("tab", 
+                    {
+                        tabKey: sTabKey
+                    })
+                const oModelSelect = this.getView().getModel("Selected");
+                const sTab = oModelSelect.getProperty("/selectedTab");
+                oModelSelect.setProperty("/selectedTab", sTabKey);
+                
+                this.getView().setModel(oModelSelect, "Selected");
             }
         });
     }

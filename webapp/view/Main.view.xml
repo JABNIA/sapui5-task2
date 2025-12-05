@@ -9,9 +9,11 @@
         <IconTabBar
             id="textBar"
             class="sapUiResponsivePaddings"
+            select=".onTabPress"
+            selectedKey="{Selected>/selectedTab}"
         >
             <items>
-                <IconTabFilter text="{i18n>jsonModel}">
+                <IconTabFilter text="{i18n>jsonModel}" key="JSONModel">
                     <Table
                         id="bookTable"
                         mode="MultiSelect"
@@ -120,7 +122,7 @@
                         </items>
                     </Table>
                 </IconTabFilter>
-                <IconTabFilter text="{i18n>odataV2}">
+                <IconTabFilter text="{i18n>odataV2}" key="V2Model">
                     <Table
                         id="productTable"
                         mode="MultiSelect"
@@ -244,7 +246,7 @@
                         </items>
                     </Table>
                 </IconTabFilter>
-                <IconTabFilter text="{i18n>odataV4}">
+                <IconTabFilter text="{i18n>odataV4}" key="V4Model" >
                     <Table
                         id="V4dataTable"
                         mode="MultiSelect"
