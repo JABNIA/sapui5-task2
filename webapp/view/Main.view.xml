@@ -9,9 +9,11 @@
         <IconTabBar
             id="textBar"
             class="sapUiResponsivePaddings"
+            select=".onTabPress"
+            selectedKey="{viewModel>/selectedTab}"
         >
             <items>
-                <IconTabFilter text="{i18n>jsonModel}">
+                <IconTabFilter text="{i18n>jsonModel}" key="JSONModel">
                     <Table
                         id="bookTable"
                         mode="MultiSelect"
@@ -80,11 +82,11 @@
                                     <HBox>
                                         <Text
                                             text="{bookData>name}"
-                                            visible="{= ${viewModel>/id} !== ${bookData>id} ? true : ${viewModel>/isVisible} ? false : true }"
+                                            visible="{= ${viewModel>/titleEdit/id} !== ${bookData>id} ? true : ${viewModel>/titleEdit/isVisible} ? false : true }"
                                         />
                                         <Input
                                             value="{bookData>name}"
-                                            visible="{= ${viewModel>/isVisible} &amp;&amp; ${viewModel>/id} === ${bookData>id} }"
+                                            visible="{= ${viewModel>/titleEdit/isVisible} &amp;&amp; ${viewModel>/titleEdit/id} === ${bookData>id} }"
                                         />
                                     </HBox>
                                     <HBox>
@@ -111,7 +113,7 @@
                                     </HBox>
                                     <HBox>
                                         <Button
-                                            text="{= ${viewModel>/isVisible} ? ${viewModel>/id} === ${bookData>id} ? 'Save Title' : 'Edit Title'  : 'Edit Title'}"
+                                            text="{= ${viewModel>/titleEdit/isVisible} ? ${viewModel>/titleEdit/id} === ${bookData>id} ? 'Save Title' : 'Edit Title'  : 'Edit Title'}"
                                             press=".onEditTitle"
                                         />
                                     </HBox>
@@ -120,7 +122,7 @@
                         </items>
                     </Table>
                 </IconTabFilter>
-                <IconTabFilter text="{i18n>odataV2}">
+                <IconTabFilter text="{i18n>odataV2}" key="V2Model">
                     <Table
                         id="productTable"
                         mode="MultiSelect"
@@ -244,7 +246,7 @@
                         </items>
                     </Table>
                 </IconTabFilter>
-                <IconTabFilter text="{i18n>odataV4}">
+                <IconTabFilter text="{i18n>odataV4}" key="V4Model" >
                     <Table
                         id="V4dataTable"
                         mode="MultiSelect"
