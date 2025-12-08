@@ -221,6 +221,11 @@ sap.ui.define(
 
                     this.AddV2RecordDialog.close();
                 }
+                this.byId("ProductName").setValueState("None");
+                this.byId("ProductDescription").setValueState("None");
+                this.byId("ProductReleaseDate").setValueState("None");
+                this.byId("ProductRating").setValueState("None");
+                this.byId("ProductPrice").setValueState("None");
             },
 
             async onOpenAddRecordDialog() {
@@ -254,7 +259,7 @@ sap.ui.define(
                 const oNewContext = oModel.createEntry("/Products", {
                     groupId: "myDeferedGroup",
                     properties: {
-                    Name: "", Description: "", ReleaseDate: null, DiscontinuedDate: null, Rating: 0, Price: 0
+                    Name: "", Description: "", ReleaseDate: null, DiscontinuedDate: null, Rating: null, Price: null
                 }})
 
                 this.AddV2RecordDialog.setBindingContext(oNewContext, "ODataV2")
@@ -292,7 +297,7 @@ sap.ui.define(
                 });
             },
 
-            async onAddV2Record(oEvent) {
+            onAddV2Record(oEvent) {
                 const oBundle = this.getModel("i18n").getResourceBundle();
                 const oModel = this.getModel("ODataV2");
                 const oEditModel = this.getModel("viewModel")
@@ -318,12 +323,8 @@ sap.ui.define(
             },
 
             onOpenEditV2Record(oEvent) {
-                const oContext = oEvent.getSource().getBindingContext("ODataV2");
-
                 const editModeModel= this.getModel("viewModel");
                 editModeModel.setProperty("/editMode", true);
-
-                const oModel = this.getModel("ODataV2");
 
                 this.onOpenAddV2RecordFragment(oEvent)
 
