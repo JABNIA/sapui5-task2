@@ -56,7 +56,6 @@ sap.ui.define(
 
                 this.getView().setModel(viewModel, "viewModel");
                 const hashParameter = HashChanger.getInstance();
-                console.log(hashParameter.getHash())
 
                 if(hashParameter) {
                     const tabKey = hashParameter.getHash().substring(4);
@@ -305,7 +304,7 @@ sap.ui.define(
                 
                 const oContext = oEvent.getSource().getBindingContext("ODataV2")
                 if (isEditMode) {
-                    if (this.validateV2Record(oContext.getProperty("")) !== true) {
+                    if (this.validateV2Record(oContext.getObject()) !== true) {
                         return
                     }else {
                         oEditModel.setProperty("/editMode", false)
@@ -313,7 +312,7 @@ sap.ui.define(
                         return;
                     };
                 }
-                if (this.validateV2Record(oContext.getProperty("")) !== true) return
+                if (this.validateV2Record(oContext.getObject()) !== true) return
                 oModel.submitChanges({
                     success: () => MessageToast.show(oBundle.getText("recordSuccessfullyAdded")),
                     error: () => MessageBox.error(oBundle.getText("errorMessage")),
