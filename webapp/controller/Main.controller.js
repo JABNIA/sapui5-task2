@@ -258,19 +258,13 @@ sap.ui.define(
                 
                 const oModel = this.getModel("ODataV2")
                 
-                const aDeferedGroups = oModel.getDeferredGroups();
-                aDeferedGroups.push("myDeferedGroup");
-                oModel.setDeferredGroups(aDeferedGroups);
-                
                 const oNewContext = oModel.createEntry("/Products", {
-                    groupId: "myDeferedGroup",
+                    groupId: "changes",
                     properties: {
                     Name: "", Description: "", ReleaseDate: null, DiscontinuedDate: null, Rating: null, Price: null
                 }})
 
                 this.AddV2RecordDialog.setBindingContext(oNewContext, "ODataV2")
-            
-            console.log(this.AddV2RecordDialog.getModel("ODataV2"))
                 this.AddV2RecordDialog.open();
             },
 
@@ -382,7 +376,7 @@ sap.ui.define(
                 
                 const sTabKey = oEvent.getParameters().key
                 const oRouter = this.getOwnerComponent().getRouter()
-                const aNavigate = oRouter.navTo("tab", {tabKey: sTabKey})
+                oRouter.navTo("tab", {tabKey: sTabKey})
                 
                 const oModelSelect = this.getView().getModel("viewModel");
                 oModelSelect.setProperty("/selectedTab", sTabKey);
