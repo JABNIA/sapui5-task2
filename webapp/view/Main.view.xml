@@ -216,7 +216,10 @@
                             </Column>
                         </columns>
                         <items>
-                            <ColumnListItem>
+                            <ColumnListItem
+                            type="Navigation"
+                            press=".onProductPage"
+                            >
                                 <HBox>
                                     <Text text="{ODataV2>Name}" />
                                 </HBox>

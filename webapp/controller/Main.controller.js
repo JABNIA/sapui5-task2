@@ -382,6 +382,15 @@ sap.ui.define(
                 oModelSelect.setProperty("/selectedTab", sTabKey);
             },
 
+            onProductPage(oEvent) {
+                const oRow = oEvent.getSource();
+                const oRouter=this.getOwnerComponent().getRouter()
+                const sProductId = oRow.getBindingContext("ODataV2").getPath().substring(10,13)
+                
+                oRouter.navTo("Product", {
+                    ProductId: window.encodeURIComponent(sProductId)
+                })
+            }
         });
     }
 );

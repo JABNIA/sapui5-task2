@@ -125,12 +125,21 @@
                     "name": "tab",
                     "pattern": "tab/{tabKey}",
                     "target": "TargetMain"
+                },
+                {
+                    "name": "Product",
+                    "pattern": "Product/{ProductId}",
+                    "target": "ProductPage"
                 }
             ],
             "targets": {
                 "TargetMain": {
                     "id": "Main",
                     "name": "Main"
+                },
+                "ProductPage":{
+                    "id": "Product",
+                    "name": "Product"
                 }
             }
         },
