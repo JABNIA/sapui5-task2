@@ -385,7 +385,7 @@ sap.ui.define(
             onProductPage(oEvent) {
                 const oRow = oEvent.getSource();
                 const oRouter=this.getOwnerComponent().getRouter()
-                const sProductId = oRow.getBindingContext("ODataV2").getPath().substring(10,13)
+                const sProductId = oRow.getBindingContext("ODataV2").getObject().ID
                 
                 oRouter.navTo("Product", {
                     ProductId: window.encodeURIComponent(sProductId)
