@@ -57,6 +57,7 @@ sap.ui.define(
             },
 
             _setNewEmptyObject() {
+                const oModel = this.getModel("viewModel");
                 const newObjcet = {
                     name: "",
                     author: "",
@@ -64,8 +65,8 @@ sap.ui.define(
                     releasedate: "",
                     availablequantity: null
                     };
-
-                return newObjcet;
+                    
+                oModel.setProperty("/newObject", newObjcet);
             },
             
             onAddRecord() {
@@ -189,8 +190,7 @@ sap.ui.define(
                     name: "project1.fragment.AddRecordDialog",
                 });
 
-                const oModel = this.getModel("viewModel");
-                oModel.setProperty("/newObject", this._setNewEmptyObject())
+                this._setNewEmptyObject();
 
                 this.AddRecordDialog.bindElement({path: "/newObject", model: "viewModel"})
                 this.AddRecordDialog.open();
@@ -341,7 +341,7 @@ sap.ui.define(
             onProductPage(oEvent) {
                 const oRow = oEvent.getSource();
                 const oRouter=this.getOwnerComponent().getRouter()
-                const sProductId = oRow.getBindingContext("ODataV2").getObject().ID``
+                const sProductId = oRow.getBindingContext("ODataV2").getObject().ID
                 
                 oRouter.navTo("Product", {
                     ProductId: window.encodeURIComponent(sProductId)
