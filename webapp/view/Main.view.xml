@@ -18,7 +18,7 @@
                         id="bookTable"
                         mode="MultiSelect"
                         items="{
-                            path: 'bookData>/books'
+                            path: 'Book>/books'
                         }"
                     >
                         <headerToolbar>
@@ -41,13 +41,13 @@
                                 <Select
                                     id="genreSelect"
                                     items="{
-                            path: 'gernes>/bookGenres'
+                            path: 'viewModel>/genres'
                         }"
                                     width="10%"
                                 >
                                     <core:Item
-                                        text="{gernes>key}"
-                                        key="{gernes>text}"
+                                        text="{viewModel>key}"
+                                        key="{viewModel>text}"
                                     />
                                 </Select>
                                 <Button
@@ -81,19 +81,19 @@
                                 <cells>
                                     <HBox>
                                         <Text
-                                            text="{bookData>name}"
-                                            visible="{= ${viewModel>/titleEdit/id} !== ${bookData>id} ? true : ${viewModel>/titleEdit/isVisible} ? false : true }"
+                                            text="{Book>name}"
+                                            visible="{= ${viewModel>/titleEdit/id} !== ${Book>id} ? true : ${viewModel>/titleEdit/isVisible} ? false : true }"
                                         />
                                         <Input
-                                            value="{bookData>name}"
-                                            visible="{= ${viewModel>/titleEdit/isVisible} &amp;&amp; ${viewModel>/titleEdit/id} === ${bookData>id} }"
+                                            value="{Book>name}"
+                                            visible="{= ${viewModel>/titleEdit/isVisible} &amp;&amp; ${viewModel>/titleEdit/id} === ${Book>id} }"
                                         />
                                     </HBox>
                                     <HBox>
-                                        <Text text="{bookData>author}" />
+                                        <Text text="{Book>author}" />
                                     </HBox>
                                     <HBox>
-                                        <Text text="{bookData>genre}" />
+                                        <Text text="{Book>genre}" />
                                     </HBox>
                                     <HBox>
                                         <Text
@@ -101,19 +101,19 @@
                                 Formatter: 'project1/model/formatter'
                             }"
                                             text="{
-                                path: 'bookData>releasedate',
+                                path: 'Book>releasedate',
                                 formatter: 'Formatter.formatDate.bind($controller)'
                             }"
                                         />
                                     </HBox>
                                     <HBox>
                                         <Text
-                                            text="{bookData>availablequantity}"
+                                            text="{Book>availablequantity}"
                                         />
                                     </HBox>
                                     <HBox>
                                         <Button
-                                            text="{= ${viewModel>/titleEdit/isVisible} ? ${viewModel>/titleEdit/id} === ${bookData>id} ? 'Save Title' : 'Edit Title'  : 'Edit Title'}"
+                                            text="{= ${viewModel>/titleEdit/isVisible} ? ${viewModel>/titleEdit/id} === ${Book>id} ? 'Save Title' : 'Edit Title'  : 'Edit Title'}"
                                             press=".onEditTitle"
                                         />
                                     </HBox>
@@ -216,7 +216,10 @@
                             </Column>
                         </columns>
                         <items>
-                            <ColumnListItem>
+                            <ColumnListItem
+                            type="Navigation"
+                            press=".onProductPage"
+                            >
                                 <HBox>
                                     <Text text="{ODataV2>Name}" />
                                 </HBox>

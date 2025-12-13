@@ -19,9 +19,7 @@
             <Input
                 id="ProductName"
                 type="Text"
-                value="{
-                    path: 'ODataV2>Name'
-                }"
+                value="{ODataV2>Name}"
             />
             <Label
                 labelFor="ProductDescription"
@@ -30,9 +28,7 @@
             <Input
                 id="ProductDescription"
                 type="Text"
-                value="{
-                    path: 'ODataV2>Description'
-                }"
+                value="{ODataV2>Description}"
             />
             <Label
                 labelFor="ProductReleaseDate"
@@ -63,9 +59,7 @@
             <Input
                 id="ProductRating"
                 type="Number"
-                value="{
-                    path: 'ODataV2>Rating'
-                }"
+                value="{ODataV2>Rating}"
             />
             <Label
                 labelFor="ProductPrice"
@@ -74,9 +68,7 @@
             <Input
                 id="ProductPrice"
                 type="Number"
-                value="{
-                    path: 'ODataV2>Price'
-                }"
+                value="{ODataV2>Price}"
             />
         </HBox>
         <beginButton>

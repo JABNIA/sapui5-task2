@@ -72,7 +72,7 @@
             },
             "Book": {
                 "type": "sap.ui.model.json.JSONModel",
-                "uri": "books.json"
+                "uri": "model/books.json"
             },
             "ODataV2": {
                 "type": "sap.ui.model.odata.v2.ODataModel",
@@ -125,12 +125,21 @@
                     "name": "tab",
                     "pattern": "tab/{tabKey}",
                     "target": "TargetMain"
+                },
+                {
+                    "name": "Product",
+                    "pattern": "Product/{ProductId}",
+                    "target": "ProductPage"
                 }
             ],
             "targets": {
                 "TargetMain": {
                     "id": "Main",
                     "name": "Main"
+                },
+                "ProductPage":{
+                    "id": "Product",
+                    "name": "Product"
                 }
             }
         },

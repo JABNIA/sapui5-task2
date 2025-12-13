@@ -11,6 +11,26 @@ sap.ui.define(
                     .getResourceBundle()
                     .getText(sText);
             },
+            validateJSONModelRecord: function (obj){
+                    if (obj.name === "") {
+                        MessageToast.show(this.i18n("warningNameField"));
+                        return false;
+                    }else if (obj.author === "") {
+                        MessageToast.show(this.i18n("warningAuthorField"));
+                        return false;
+                    }else if (obj.genre === "") {
+                        MessageToast.show(this.i18n("warningGenreField"));
+                        return false;
+                    }else if (obj.releasedate === "") {
+                        MessageToast.show(this.i18n("warningReleaseDateField"));
+                        return false;
+                    }else if (obj.availablequantity === null) {
+                        MessageToast.show(this.i18n("warningAvailableQuantityField"));
+                        return false;
+                    }else {
+                        return true;
+                    }
+                },
             validateV2Record: function (obj) {
                 if (!obj.Name) {
                     MessageToast.show(this.i18n("pleaseEnterProductName"));

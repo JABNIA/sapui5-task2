@@ -19,6 +19,7 @@
             <Input
                 id="bookName"
                 type="Text"
+                value="{viewModel>/newObject/name}"
             />
             <Label
                 labelFor="bookAuthor"
@@ -27,6 +28,7 @@
             <Input
                 id="bookAuthor"
                 type="Text"
+                value="{viewModel>/newObject/author}"
             />
             <Label
                 labelFor="bookGenre"
@@ -35,6 +37,7 @@
             <Input
                 id="bookGenre"
                 type="Text"
+                value="{viewModel>/newObject/genre}"
             />
             <Label
                 labelFor="bookReleaseDate"
@@ -43,6 +46,7 @@
             <Input
                 id="bookReleaseDate"
                 type="Date"
+                value="{viewModel>/newObject/releasedate}"
             />
             <Label
                 labelFor="bookAvailableQuantity"
@@ -51,6 +55,7 @@
             <Input
                 id="bookAvailableQuantity"
                 type="Number"
+                value="{viewModel>/newObject/availablequantity}"
             />
         </HBox>
         <beginButton>
