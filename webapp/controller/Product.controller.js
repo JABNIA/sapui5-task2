@@ -1,8 +1,10 @@
 sap.ui.define(
-    ["./BaseController", "sap/ui/core/routing/History",
-        "sap/ui/model/Context"
+    [
+        "./BaseController", 
+        "sap/ui/model/Context",
+        "sap/m/MessageBox",
     ],
-    (BaseController, History, Context) => {
+    (BaseController, Context, MessageBox) => {
         "use strict";
 
         return BaseController.extend("project1.controller.Product", {
@@ -13,23 +15,35 @@ sap.ui.define(
                 oRouter
                     .getRoute("Product")
                     .attachPatternMatched(this._onRouteMatched, this);
-
-            },
+                },
 
             _onRouteMatched(oEvent) {
                 const sProductID = oEvent.getParameter("arguments").ProductId;
 
+                this._onFetchProductDetails(sProductID);
+            },
+
+            _onFetchProductDetails(sProductId) {
                 const oModel = this.getOwnerComponent().getModel("ODataV2");
-                oModel.read(`/Products(${sProductID})`, {
+                oModel.read(`/Products(${sProductId})`, {
                     success: (oData) => {
                         const oContext = new Context(
                             oModel,
-                            `/Products(${sProductID})`
+                            `/Products(${sProductId})`
                         );
                         this.getView().setBindingContext(oContext, "ODataV2");
-                        console.log(oData.SupplierID);
 
-                        oModel.read(`/Suppliers(${oData.SupplierID})`, {
+                        this._onFetchProductSuppliers(oData, oModel);
+                    },
+                    error: () => {
+                        MessageBox.error(this.i18n("failedTofetchProductData"));
+                    },
+                });
+            },
+
+            _onFetchProductSuppliers(oData, oModel) {
+
+                oModel.read(`/Suppliers(${oData.SupplierID})`, {
                             success: (oSuppliersData) => {
                                 const oTableContext = new Context(
                                     oModel,
@@ -40,26 +54,14 @@ sap.ui.define(
                                     "ODataV2"
                                 );
                             },
-                            error: (oError) => {
-                                console.error(
-                                    "Failed to fetch supplier data:",
-                                    oError
-                                );
+                            error: () => {
+                                MessageBox.error(this.i18n("failedTofetchSupplierData"));
                             },
                         });
-                    },
-                    error: (oError) => {
-                        console.error("Failed to fetch product data:", oError);
-                    },
-                });
             },
             onNavBack() {
-                const oHistory = History.getInstance();
-                const sPreviousHash = oHistory.getPreviousHash();
-
-                if (sPreviousHash !== undefined) {
-                    window.history.go(-1);
-                }
+                const oRouter = this.getOwnerComponent().getRouter()
+                oRouter.navTo("tab", {tabKey: "V2Model"});
             },
         });
     }
