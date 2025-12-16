@@ -27,9 +27,10 @@ sap.ui.define(
                 const oModel = this.getOwnerComponent().getModel("ODataV2");
                 oModel.read(`/Products(${sProductId})`, {
                     success: (oData) => {
-                        const oContext = new Context(
+                        const oContext = this._getContext(
+                            "Products",
                             oModel,
-                            `/Products(${sProductId})`
+                            sProductId
                         );
                         this.getView().setBindingContext(oContext, "ODataV2");
 
@@ -45,12 +46,14 @@ sap.ui.define(
 
                 oModel.read(`/Suppliers(${oData.SupplierID})`, {
                             success: (oSuppliersData) => {
-                                const oTableContext = new Context(
+                                const oContext = this._getContext(
+                                    "Suppliers",
                                     oModel,
-                                    `/Suppliers(${oSuppliersData.ID})`
+                                    oData.SupplierID
                                 );
+
                                 this.byId("supplierTable").setBindingContext(
-                                    oTableContext,
+                                    oContext,
                                     "ODataV2"
                                 );
                             },
@@ -59,6 +62,13 @@ sap.ui.define(
                             },
                         });
             },
+            _getContext(sPath, oModel, requestedId) {
+                const oContext = new Context(
+                        oModel,
+                        `/${sPath}(${requestedId})`
+                    );
+                return oContext;
+                },
             onNavBack() {
                 const oRouter = this.getOwnerComponent().getRouter()
                 oRouter.navTo("tab", {tabKey: "V2Model"});
