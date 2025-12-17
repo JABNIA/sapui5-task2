@@ -10,7 +10,6 @@ sap.ui.define(
         return BaseController.extend("project1.controller.Product", {
             onInit() {
                 const oRouter = this.getOwnerComponent().getRouter();
-                console.log(oRouter);
 
                 oRouter
                     .getRoute("Product")
@@ -25,43 +24,27 @@ sap.ui.define(
 
             _onFetchProductDetails(sProductId) {
                 const oModel = this.getOwnerComponent().getModel("ODataV2");
+                console.log(oModel)
                 oModel.read(`/Products(${sProductId})`, {
+                    urlParameters: {
+                        "$expand": "Supplier",
+                    },
                     success: (oData) => {
                         const oContext = this._getContext(
                             "Products",
                             oModel,
                             sProductId
                         );
+                        console.log(oData)
                         this.getView().setBindingContext(oContext, "ODataV2");
-
-                        this._onFetchProductSuppliers(oData, oModel);
                     },
                     error: () => {
                         MessageBox.error(this.i18n("failedTofetchProductData"));
                     },
                 });
+                
             },
-
-            _onFetchProductSuppliers(oData, oModel) {
-
-                oModel.read(`/Suppliers(${oData.SupplierID})`, {
-                            success: (oSuppliersData) => {
-                                const oContext = this._getContext(
-                                    "Suppliers",
-                                    oModel,
-                                    oData.SupplierID
-                                );
-
-                                this.byId("supplierTable").setBindingContext(
-                                    oContext,
-                                    "ODataV2"
-                                );
-                            },
-                            error: () => {
-                                MessageBox.error(this.i18n("failedTofetchSupplierData"));
-                            },
-                        });
-            },
+            
             _getContext(sPath, oModel, requestedId) {
                 const oContext = new Context(
                         oModel,

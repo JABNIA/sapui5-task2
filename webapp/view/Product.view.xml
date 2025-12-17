@@ -39,7 +39,9 @@
         </uxap:ObjectPageSection>
         <uxap:ObjectPageSection title="{i18n>productSuppliers}">
             <uxap:ObjectPageSubSection title="{i18n>suppliers}">
-                <Table id="supplierTable">
+                <Table 
+                id="supplierTable"
+                >
                     <headerToolbar>
                         <Toolbar>
                             <Title text="Suppliers"/>
@@ -71,13 +73,13 @@
                     <items>
                         <ColumnListItem>
                             <cells>
-                                <Text text="{ODataV2>ID}"/>
-                                <Text text="{ODataV2>Name}"/>
-                                <Text text="{ODataV2>Address/Country}"/>
-                                <Text text="{ODataV2>Address/ZipCode}"/>
-                                <Text text="{ODataV2>Address/State}"/>
-                                <Text text="{ODataV2>Address/City}"/>
-                                <Text text="{ODataV2>Address/Street}"/>
+                                <Text text="{ODataV2>Supplier/ID}"/>
+                                <Text text="{ODataV2>Supplier/Name}"/>
+                                <Text text="{ODataV2>Supplier/Address/Country}"/>
+                                <Text text="{ODataV2>Supplier/Address/ZipCode}"/>
+                                <Text text="{ODataV2>Supplier/Address/State}"/>
+                                <Text text="{ODataV2>Supplier/Address/City}"/>
+                                <Text text="{ODataV2>Supplier/Address/Street}"/>
                             </cells>
                         </ColumnListItem>
                     </items>
