@@ -6,7 +6,13 @@
         "ReleaseDate": "/Date(1710460800000)/",
         "DiscontinuedDate": "/Date(1744761600000)/",
         "Rating": 4.5,
-        "Price": 599.99
+        "Price": 599.99,
+        "SupplierID": 7,
+         "Supplier": {
+      "__deferred": {
+        "uri": "http://localhost:8080/V2/OData/OData.svc/Products(1)/Supplier"
+      }
+    }
     },
     {
         "ID": 102,
@@ -15,7 +21,8 @@
         "ReleaseDate": "/Date(1674172800000)/",
         "DiscontinuedDate": "/Date(1756723200000)/",
         "Rating": 3.8,
-        "Price": 125.0
+        "Price": 125.0,
+        "SupplierID": 3
     },
     {
         "ID": 103,
@@ -24,7 +31,8 @@
         "ReleaseDate": "/Date(1657382400000)/",
         "DiscontinuedDate": "/Date(1704067200000)/",
         "Rating": 4.9,
-        "Price": 99.99
+        "Price": 99.99,
+        "SupplierID": 9
     },
     {
         "ID": 104,
@@ -33,7 +41,8 @@
         "ReleaseDate": "/Date(1727740800000)/",
         "DiscontinuedDate": "/Date(1767225600000)/",
         "Rating": 5.0,
-        "Price": 1899.0
+        "Price": 1899.0,
+        "SupplierID": 2
     },
     {
         "ID": 105,
@@ -42,7 +51,8 @@
         "ReleaseDate": "/Date(1685011200000)/",
         "DiscontinuedDate": "/Date(1733049600000)/",
         "Rating": 4.1,
-        "Price": 49.5
+        "Price": 49.5,
+        "SupplierID": 5
     },
     {
         "ID": 106,
@@ -51,7 +61,8 @@
         "ReleaseDate": "/Date(1718150400000)/",
         "DiscontinuedDate": "/Date(1724976000000)/",
         "Rating": 4.3,
-        "Price": 199.99
+        "Price": 199.99,
+        "SupplierID": 8
     },
     {
         "ID": 107,
@@ -60,7 +71,8 @@
         "ReleaseDate": "/Date(1636108800000)/",
         "DiscontinuedDate": "/Date(1746432000000)/",
         "Rating": 4.6,
-        "Price": 249.95
+        "Price": 249.95,
+        "SupplierID": 4
     },
     {
         "ID": 108,
@@ -69,7 +81,8 @@
         "ReleaseDate": "/Date(1693526400000)/",
         "DiscontinuedDate": "/Date(1727740800000)/",
         "Rating": 3.5,
-        "Price": 65.0
+        "Price": 65.0,
+        "SupplierID": 1
     },
     {
         "ID": 109,
@@ -78,7 +91,8 @@
         "ReleaseDate": "/Date(1706400000000)/",
         "DiscontinuedDate": "/Date(1742553600000)/",
         "Rating": 4.7,
-        "Price": 299.99
+        "Price": 299.99,
+        "SupplierID": 6
     },
     {
         "ID": 110,
@@ -87,6 +101,7 @@
         "ReleaseDate": "/Date(1706745600000)/",
         "DiscontinuedDate": "/Date(1721001600000)/",
         "Rating": 4.4,
-        "Price": 35.5
+        "Price": 35.5,
+        "SupplierID": 10
     }
 ]

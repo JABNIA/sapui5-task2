@@ -3,7 +3,92 @@
     xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
     controllerName="project1.controller.Product"
+    xmlns:uxap="sap.uxap"
+    xmlns:f="sap.ui.layout.form"
 >
-    <Page>
-    </Page>
+<Page
+    showNavButton="true"
+    navButtonPress=".onNavBack"
+>
+<uxap:ObjectPageLayout id="ObjectPageLayout">
+
+	<uxap:headerTitle>
+		<uxap:ObjectPageHeader objectTitle="{ODataV2>Name}"/>
+	</uxap:headerTitle>
+
+    <uxap:sections>
+        <uxap:ObjectPageSection title="{i18n>details}">
+            <uxap:ObjectPageSubSection title="{i18n>details}">
+                <f:SimpleForm>
+                    <f:content>
+                        <Label text="{i18n>name}"/>
+                        <Text text="{ODataV2>Name}"/>
+                        <Label text="{i18n>description}"/>
+                        <Text text="{ODataV2>Description}"/>
+                        <Label text="{i18n>releaseDate}"/>
+                        <Text text="{ODataV2>ReleaseDate}"/>
+                        <Label text="{i18n>discontinuedDate}"/>
+                        <Text text="{ODataV2>DiscontinuedDate}"/>
+                        <Label text="{i18n>rating}"/>
+                        <Text text="{ODataV2>Rating}"/>
+                        <Label text="{i18n>price}"/>
+                        <Text text="{ODataV2>Price}"/>
+                    </f:content>
+                </f:SimpleForm>
+            </uxap:ObjectPageSubSection>
+        </uxap:ObjectPageSection>
+        <uxap:ObjectPageSection title="{i18n>productSuppliers}">
+            <uxap:ObjectPageSubSection title="{i18n>suppliers}">
+                <Table 
+                id="supplierTable"
+                >
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="Suppliers"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column>
+                            <Text text="{i18n>id}"/>
+                        </Column>
+                        <Column>
+                            <Text text="{i18n>name}"/>
+                        </Column>
+                        <Column>
+                            <Text text="{i18n>country}"/>
+                        </Column>
+                        <Column>
+                            <Text text="{i18n>zipCode}"/>
+                        </Column>
+                        <Column>
+                            <Text text="{i18n>state}"/>
+                        </Column>
+                        <Column>
+                            <Text text="{i18n>city}"/>
+                        </Column>
+                        <Column>
+                            <Text text="{i18n>street}"/>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{ODataV2>Supplier/ID}"/>
+                                <Text text="{ODataV2>Supplier/Name}"/>
+                                <Text text="{ODataV2>Supplier/Address/Country}"/>
+                                <Text text="{ODataV2>Supplier/Address/ZipCode}"/>
+                                <Text text="{ODataV2>Supplier/Address/State}"/>
+                                <Text text="{ODataV2>Supplier/Address/City}"/>
+                                <Text text="{ODataV2>Supplier/Address/Street}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+
+                </Table>
+            </uxap:ObjectPageSubSection>
+        </uxap:ObjectPageSection>
+    </uxap:sections>
+</uxap:ObjectPageLayout>
+</Page>
+
 </mvc:View>

@@ -1,0 +1,153 @@
+[
+    {
+        "ID": 1,
+        "Name": "TechNova Supplies",
+        "Address": {
+            "Street": "123 Innovation Drive",
+            "City": "Techville",
+            "State": "CA",
+            "ZipCode": "94043",
+            "Country": "USA"
+        },
+        "Concurency": 1,
+        "Products": [
+            {"__metadata": {"uri":"Products(101)"}}
+        ]
+    }
+,
+{
+    "ID": 2,
+    "Name": "Global Parts Ltd",
+    "Address": {
+        "Street": "456 Commerce Boulevard",
+        "City": "New York",
+        "State": "NY",
+        "ZipCode": "10001",
+        "Country": "USA"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(104)"}}
+    ]
+},
+{
+    "ID": 3,
+    "Name": "EuroTrade Solutions",
+    "Address": {
+        "Street": "789 Industrial Way",
+        "City": "Berlin",
+        "State": "BE",
+        "ZipCode": "10115",
+        "Country": "Germany"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(102)"}}
+    ]
+},
+{
+    "ID": 4,
+    "Name": "Asia Pacific Imports",
+    "Address": {
+        "Street": "321 Trade Center",
+        "City": "Singapore",
+        "State": "SG",
+        "ZipCode": "018989",
+        "Country": "Singapore"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(107)"}}
+    ]
+},
+{
+    "ID": 5,
+    "Name": "Premier Manufacturing",
+    "Address": {
+        "Street": "654 Factory Road",
+        "City": "Houston",
+        "State": "TX",
+        "ZipCode": "77002",
+        "Country": "USA"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(105)"}}
+    ]
+},
+{
+    "ID": 6,
+    "Name": "MidEast Trading Co",
+    "Address": {
+        "Street": "987 Market Lane",
+        "City": "Dubai",
+        "State": "DU",
+        "ZipCode": "12345",
+        "Country": "UAE"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(109)"}}
+    ]
+},
+{
+    "ID": 7,
+    "Name": "SouthAmerica Exports",
+    "Address": {
+        "Street": "111 Supply Street",
+        "City": "São Paulo",
+        "State": "SP",
+        "ZipCode": "01310",
+        "Country": "Brazil"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(101)"}}
+    ]
+},
+{
+    "ID": 8,
+    "Name": "African Resources Ltd",
+    "Address": {
+        "Street": "222 Commerce Avenue",
+        "City": "Lagos",
+        "State": "LA",
+        "ZipCode": "100001",
+        "Country": "Nigeria"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(106)"}}
+    ]
+},
+{
+    "ID": 9,
+    "Name": "Nordic Industries",
+    "Address": {
+        "Street": "333 Nordic Plaza",
+        "City": "Stockholm",
+        "State": "ST",
+        "ZipCode": "10120",
+        "Country": "Sweden"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(103)"}}
+    ]
+},
+{
+    "ID": 10,
+    "Name": "Pacific Rim Suppliers",
+    "Address": {
+        "Street": "444 Ocean Drive",
+        "City": "Sydney",
+        "State": "NSW",
+        "ZipCode": "2000",
+        "Country": "Australia"
+    },
+    "Concurency": 1,
+    "Products": [
+        {"__metadata": {"uri":"Products(110)"}}
+    ]
+}
+]
