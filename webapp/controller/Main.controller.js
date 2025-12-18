@@ -159,28 +159,35 @@ sap.ui.define(
             },
 
             onCloseDialog(oEvent) {
-                const dyalogType = oEvent.getSource().data("dialogType");
-                const oModel = this.getModel("ODataV2");
-                const oContext = oEvent
-                    .getSource()
-                    .getBindingContext("ODataV2");
-                const resetPath = oContext ? oContext.getPath() : null;
-
-                if (dyalogType === "Delete") {
+                const dialogType = oEvent.getSource().data("dialogType");
+                
+                if (dialogType === "Delete") {
                     this.oDeleteDialog.close();
                 }
-                if (dyalogType === "AddRecord") {
+                if (dialogType === "AddRecord") {
                     this.AddRecordDialog.close();
                 }
-                if (dyalogType === "AddV2Record") {
+                if (dialogType === "AddV2Record") {
+                    const oModel = this.getModel("ODataV2");
+                    const oContext = oEvent
+                    .getSource()
+                    .getBindingContext("ODataV2");
+                    const resetPath = oContext ? oContext.getPath() : null;
                     const oEditMode = this.getModel("viewModel");
                     oEditMode.setProperty("/editMode", false);
                     oModel.resetChanges([resetPath]);
 
                     this.AddV2RecordDialog.close();
                 }
-                if (dyalogType === "DeleteV4") {
-                    this.DeleteV4RecordDialog.close();
+                if(dialogType === "AddV4Record"){
+                    const oModel = this.getOwnerComponent().getModel("ODataV4");
+                    const oContext = oEvent.getSource().getBindingContext("ODataV4");
+
+                    const resetPath = oContext ? oContext.getPath() : null;
+                    
+                    oModel.resetChanges("newEntityCreation")
+                    this.addV4RecordDialog.close()
+
                 }
                 this.byId("ProductName").setValueState("None");
                 this.byId("ProductDescription").setValueState("None");
@@ -439,6 +446,37 @@ sap.ui.define(
                 }
 
                 oModel.setProperty("/enableDeleteBtn", true)
+            },
+
+            async onOpenAddV4RecordDialog() {
+                this.addV4RecordDialog ??= await this.loadFragment({
+                    name: "project1.fragment.AddV4RecordDialog"
+                })
+                const oTable = this.getView().byId("V4dataTable");
+                const oModel = oTable.getBinding("items");
+
+                const oAddContext = oModel.create({
+                    Name: "",
+                    Description: "",
+                    ReleaseDate:null,
+                    DiscontinuedDate: null,
+                    Rating: 0,
+                    Price: 0
+                }, false, true)
+                console.log(oAddContext.getUpdateGroupId())
+                this.addV4RecordDialog.setBindingContext(oAddContext, "ODataV4")
+                this.addV4RecordDialog.open()
+            },
+
+            onAddV4Record(oEvent) {
+                const oModel = this.getOwnerComponent().getModel("ODataV4")
+                const oContext = oEvent.getSource().getParent().getBindingContext("ODataV4")
+                
+                if(this.validateV2Record(oContext.getObject()) === false) return;
+
+                oModel.submitBatch("newEntityCreation")
+                this.addV4RecordDialog.close()
+
             }
         });
     }

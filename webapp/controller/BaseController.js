@@ -74,7 +74,7 @@ sap.ui.define(
                         this.i18n("pleaseEnterCorrectRating")
                     );
                     return false;
-                } else if (!obj.Price === "0" || obj.Price < 0) {
+                } else if (!obj.Price === 0 || obj.Price < 0) {
                     MessageToast.show(this.i18n("pleaseEnterProductPrice"));
                     this.byId("ProductPrice").setValueState("Error");
                     this.byId("ProductPrice").setValueStateText(
@@ -82,7 +82,7 @@ sap.ui.define(
                     );
                     this.byId("ProductRating").setValueState("None");
                     return false;
-                } else if (obj.Price === null || obj.Price === "0") {
+                } else if (obj.Price === null || obj.Price === 0) {
                     MessageToast.show(this.i18n("priceCanNotBeZero"));
                     this.byId("ProductPrice").setValueState("Error");
                     this.byId("ProductPrice").setValueStateText(
