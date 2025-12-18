@@ -42,6 +42,7 @@ sap.ui.define(
                     selectedTab: "",
                     genres: genresObjArray,
                     newObject: {},
+                    enableDeleteBtn: false,
                 });
 
                 this.getView().setModel(viewModel, "viewModel");
@@ -379,30 +380,29 @@ sap.ui.define(
                     ProductId: window.encodeURIComponent(sProductId),
                 });
             },
-            async onOpenDeleteV4RecordFragment() {
-                this.DeleteV4RecordDialog ??= await this.loadFragment({
-                    name: "project1.fragment.DeleteV4RecordDialog",
-                });
+            
+            onOpenDeleteV4RecordFragment() {
+                MessageBox.confirm(this.i18n("selectRecordToDelete"), {
 
-                const oTable = this.byId("V4dataTable");
-                const aSelectedItems = oTable.getSelectedItems();
-                if(aSelectedItems.length === 0){
-                    this.DeleteV4RecordDialog.close(); 
-                    MessageBox.error(this.i18n("selectRecordToDelete"));
-                    return;
-                }
-                
-                this.DeleteV4RecordDialog.open();
+                    actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
+                    
+                    emphasizedAction: MessageBox.Action.CANCEL,
+                    
+                    onClose: function(sAction) {
+                        if(sAction === MessageBox.Action.YES){
+                            this.onClickDeleteV4Record()
+                        }
+                    }.bind(this)
+                });
             },
 
             onClickDeleteV4Record() {
                 const oTable = this.byId("V4dataTable");
                 const aSelectedItems = oTable.getSelectedItems();
-                if(aSelectedItems.length === 0){
-                    this.DeleteV4RecordDialog.close(); 
-                    MessageBox.error(this.i18n("selectRecordToDelete"));
-                    return;
-                }
+            
+                const aSelectedItemIds = aSelectedItems.map((item) => {
+                    return item.getBindingContext("ODataV4").getObject().ID;
+                });
                 
                 if(aSelectedItems.length > 1){
                     aSelectedItems.forEach((item) => {
@@ -412,19 +412,34 @@ sap.ui.define(
                 }else{
                     aSelectedItems[0].getBindingContext("ODataV4").delete();
                 }
-
-
+                
                 const oModel = this.getOwnerComponent().getModel("ODataV4");
+                const oViewModel = this.getModel("viewModel");
+
+                oViewModel.setProperty("/enableDeleteBtn", false)
+
                 oModel
                     .submitBatch("Deletion")
                     .then(() => {
-                        MessageToast.show(this.i18n('recordSuccessfullyDeleted'));
+                        MessageToast.show(this.i18n('recordSuccessfullyDeleted', [aSelectedItemIds.join(", ")]));
                     })
                     .catch(() => {
                         MessageBox.error(this.i18n("errorMessage"));
                     });
-                this.DeleteV4RecordDialog.close();
             },
+
+            onTableItemSelected() {
+                const oModel = this.getModel("viewModel");
+                const oTable = this.byId("V4dataTable");
+                const aSelectedItems = oTable.getSelectedItems();
+                
+                if(aSelectedItems.length === 0){
+                    oModel.setProperty("/enableDeleteBtn", false)
+                    return;
+                }
+
+                oModel.setProperty("/enableDeleteBtn", true)
+            }
         });
     }
 );

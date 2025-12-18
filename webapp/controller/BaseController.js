@@ -5,11 +5,11 @@ sap.ui.define(
             getModel: function (sName) {
                 return this.getView().getModel(sName);
             },
-            i18n: function (sText) {
+            i18n: function (sText, sIds) {
                 return this.getView()
                     .getModel("i18n")
                     .getResourceBundle()
-                    .getText(sText);
+                    .getText(sText, sIds);
             },
             validateJSONModelRecord: function (obj){
                     if (obj.name === "") {
