@@ -8,11 +8,11 @@
         "Rating": 4.5,
         "Price": 599.99,
         "SupplierID": 7,
-         "Supplier": {
-      "__deferred": {
-        "uri": "http://localhost:8080/V2/OData/OData.svc/Products(1)/Supplier"
-      }
-    }
+        "Supplier": {
+            "__deferred": {
+                "uri": "http://localhost:8080/V2/OData/OData.svc/Products(1)/Supplier"
+            }
+        }
     },
     {
         "ID": 102,

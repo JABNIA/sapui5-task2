@@ -7,7 +7,7 @@ sap.ui.define(
         "sap/m/MessageToast",
         "sap/m/MessageBox",
         "sap/ui/model/Sorter",
-        "sap/ui/core/routing/HashChanger"
+        "sap/ui/core/routing/HashChanger",
     ],
     (
         BaseController,
@@ -31,28 +31,27 @@ sap.ui.define(
                 );
 
                 const genresArray = Array.from(["All", ...genres]);
-                const genresObjArray =  genresArray.map((genre) => {
-                        return { key: genre, text: genre };
-                    })
-                
+                const genresObjArray = genresArray.map((genre) => {
+                    return { key: genre, text: genre };
+                });
+
                 //add new model values here
-                const viewModel = new JSONModel(
-                    {
-                        titleEdit: {isVisible: false, id: ""},
-                        editMode: false,
-                        selectedTab: "",
-                        genres: genresObjArray,
-                        newObject: {}
-                    }
-                );
+                const viewModel = new JSONModel({
+                    titleEdit: { isVisible: false, id: "" },
+                    editMode: false,
+                    selectedTab: "",
+                    genres: genresObjArray,
+                    newObject: {},
+                    enableDeleteBtn: false,
+                });
 
                 this.getView().setModel(viewModel, "viewModel");
 
                 const hashParameter = HashChanger.getInstance();
 
-                if(hashParameter) {
+                if (hashParameter) {
                     const tabKey = hashParameter.getHash().substring(4);
-                    viewModel.setProperty("/selectedTab", tabKey)
+                    viewModel.setProperty("/selectedTab", tabKey);
                 }
             },
 
@@ -63,17 +62,18 @@ sap.ui.define(
                     author: "",
                     genre: "",
                     releasedate: "",
-                    availablequantity: null
-                    };
-                    
+                    availablequantity: null,
+                };
+
                 oModel.setProperty("/newObject", newObjcet);
             },
-            
+
             onAddRecord() {
                 const oModel = this.getModel("Book");
                 const aBooks = oModel.getProperty("/books");
 
-                const oNewRow = this.getModel("viewModel").getProperty("/newObject");
+                const oNewRow =
+                    this.getModel("viewModel").getProperty("/newObject");
 
                 if (this.validateJSONModelRecord(oNewRow) !== true) return;
 
@@ -88,8 +88,7 @@ sap.ui.define(
                 const oSelectedItemsId = oTable
                     .getSelectedItems()
                     .map((item) => {
-                        return item.getBindingContext("Book").getObject()
-                            .id;
+                        return item.getBindingContext("Book").getObject().id;
                     });
 
                 if (oSelectedItemsId.length === 0) {
@@ -103,10 +102,10 @@ sap.ui.define(
                     return !oSelectedItemsId.includes(book.id);
                 });
 
-                const oModel = this.getOwnerComponent().getModel("Book")
+                const oModel = this.getOwnerComponent().getModel("Book");
 
                 oModel.setProperty("/books", filteredBooks);
-                oTable.removeSelections(true)
+                oTable.removeSelections(true);
                 this.oDeleteDialog.close();
             },
 
@@ -143,12 +142,12 @@ sap.ui.define(
                     .getBindingContext("Book")
                     .getObject().id;
 
-                this.getModel("viewModel").setProperty(
-                    "/titleEdit",{
-                        isVisible: !this.getModel("viewModel").getProperty("/titleEdit/isVisible"),
-                        id: bookId
-                    }
-                );
+                this.getModel("viewModel").setProperty("/titleEdit", {
+                    isVisible: !this.getModel("viewModel").getProperty(
+                        "/titleEdit/isVisible"
+                    ),
+                    id: bookId,
+                });
             },
 
             async onOpenDeleteDialog() {
@@ -162,7 +161,9 @@ sap.ui.define(
             onCloseDialog(oEvent) {
                 const dyalogType = oEvent.getSource().data("dialogType");
                 const oModel = this.getModel("ODataV2");
-                const oContext = oEvent.getSource().getBindingContext("ODataV2");
+                const oContext = oEvent
+                    .getSource()
+                    .getBindingContext("ODataV2");
                 const resetPath = oContext ? oContext.getPath() : null;
 
                 if (dyalogType === "Delete") {
@@ -173,10 +174,13 @@ sap.ui.define(
                 }
                 if (dyalogType === "AddV2Record") {
                     const oEditMode = this.getModel("viewModel");
-                    oEditMode.setProperty("/editMode", false)
+                    oEditMode.setProperty("/editMode", false);
                     oModel.resetChanges([resetPath]);
 
                     this.AddV2RecordDialog.close();
+                }
+                if (dyalogType === "DeleteV4") {
+                    this.DeleteV4RecordDialog.close();
                 }
                 this.byId("ProductName").setValueState("None");
                 this.byId("ProductDescription").setValueState("None");
@@ -192,36 +196,53 @@ sap.ui.define(
 
                 this._setNewEmptyObject();
 
-                this.AddRecordDialog.bindElement({path: "/newObject", model: "viewModel"})
+                this.AddRecordDialog.bindElement({
+                    path: "/newObject",
+                    model: "viewModel",
+                });
                 this.AddRecordDialog.open();
             },
 
             async onOpenAddV2RecordFragment(oEvent) {
-                const oContext = oEvent.getSource().getBindingContext("ODataV2");
-                const oEditModel = this.getModel("viewModel")
+                const oContext = oEvent
+                    .getSource()
+                    .getBindingContext("ODataV2");
+                const oEditModel = this.getModel("viewModel");
                 const oEditMode = oEditModel.getProperty("/editMode");
 
                 this.AddV2RecordDialog ??= await this.loadFragment({
                     name: "project1.fragment.AddV2RecordDialog",
                 });
 
-                if(oContext && oEditMode){
-                    this.AddV2RecordDialog.setBindingContext(oContext, "ODataV2")
+                if (oContext && oEditMode) {
+                    this.AddV2RecordDialog.setBindingContext(
+                        oContext,
+                        "ODataV2"
+                    );
                     this.AddV2RecordDialog.open();
-                    oEditModel.setProperty("/editMode", false)
+                    oEditModel.setProperty("/editMode", false);
 
                     return;
                 }
-                
-                const oModel = this.getModel("ODataV2")
-                
+
+                const oModel = this.getModel("ODataV2");
+
                 const oNewContext = oModel.createEntry("/Products", {
                     groupId: "changes",
                     properties: {
-                    Name: "", Description: "", ReleaseDate: null, DiscontinuedDate: null, Rating: null, Price: null
-                }})
+                        Name: "",
+                        Description: "",
+                        ReleaseDate: null,
+                        DiscontinuedDate: null,
+                        Rating: null,
+                        Price: null,
+                    },
+                });
 
-                this.AddV2RecordDialog.setBindingContext(oNewContext, "ODataV2")
+                this.AddV2RecordDialog.setBindingContext(
+                    oNewContext,
+                    "ODataV2"
+                );
                 this.AddV2RecordDialog.open();
             },
 
@@ -256,50 +277,58 @@ sap.ui.define(
 
             onAddV2Record(oEvent) {
                 const oBundle = this.getModel("i18n").getResourceBundle();
-                const oModel = this.getModel("ODataV2");                
-                const oContext = oEvent.getSource().getBindingContext("ODataV2")
+                const oModel = this.getModel("ODataV2");
+                const oContext = oEvent
+                    .getSource()
+                    .getBindingContext("ODataV2");
 
-                if (this.validateV2Record(oContext.getObject()) !== true) return
+                if (this.validateV2Record(oContext.getObject()) !== true)
+                    return;
                 oModel.submitChanges({
-                    success: () => MessageToast.show(oBundle.getText("recordSuccessfullyAdded")),
-                    error: () => MessageBox.error(oBundle.getText("errorMessage")),
-                    })
-                
+                    success: () =>
+                        MessageToast.show(
+                            oBundle.getText("recordSuccessfullyAdded")
+                        ),
+                    error: () =>
+                        MessageBox.error(oBundle.getText("errorMessage")),
+                });
+
                 this.AddV2RecordDialog.close();
             },
 
             onOpenEditV2Record(oEvent) {
-                const editModeModel= this.getModel("viewModel");
+                const editModeModel = this.getModel("viewModel");
                 editModeModel.setProperty("/editMode", true);
 
-                this.onOpenAddV2RecordFragment(oEvent)
-
+                this.onOpenAddV2RecordFragment(oEvent);
             },
 
             onInputSearch() {
-                const aFilter = []
+                const aFilter = [];
                 const searchValue = this.byId("searchField").getValue();
 
                 if (searchValue) {
-                    aFilter.push(new Filter({
-                        path: "Name", 
-                        operator: FilterOperator.Contains, 
-                        value1: searchValue, 
-                        caseSensitive: false
-                    }))
+                    aFilter.push(
+                        new Filter({
+                            path: "Name",
+                            operator: FilterOperator.Contains,
+                            value1: searchValue,
+                            caseSensitive: false,
+                        })
+                    );
                 }
                 const oList = this.byId("productTable");
                 const oBindign = oList.getBinding("items");
 
-                oBindign.filter(aFilter)
+                oBindign.filter(aFilter);
             },
 
             onSorterSelect() {
                 const oTable = this.byId("productTable");
-                const comboBoxValue = this.byId("sorterSelection").getValue()
+                const comboBoxValue = this.byId("sorterSelection").getValue();
                 let sorterValue = "";
-                
-                switch (comboBoxValue){
+
+                switch (comboBoxValue) {
                     case this.i18n("products"):
                         sorterValue = "Name";
                         break;
@@ -323,29 +352,93 @@ sap.ui.define(
                         break;
                 }
 
-                const oSorter = new Sorter({path: sorterValue, descending: true})
+                const oSorter = new Sorter({
+                    path: sorterValue,
+                    descending: true,
+                });
 
-                oTable.getBinding("items").sort(oSorter)
+                oTable.getBinding("items").sort(oSorter);
             },
-            
+
             onTabPress(oEvent) {
-                
-                const sTabKey = oEvent.getParameters().key
-                const oRouter = this.getOwnerComponent().getRouter()
-                oRouter.navTo("tab", {tabKey: sTabKey})
-                
+                const sTabKey = oEvent.getParameters().key;
+                const oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo("tab", { tabKey: sTabKey });
+
                 const oModelSelect = this.getView().getModel("viewModel");
                 oModelSelect.setProperty("/selectedTab", sTabKey);
             },
 
             onProductPage(oEvent) {
                 const oRow = oEvent.getSource();
-                const oRouter=this.getOwnerComponent().getRouter()
-                const sProductId = oRow.getBindingContext("ODataV2").getObject().ID
-                
+                const oRouter = this.getOwnerComponent().getRouter();
+                const sProductId = oRow
+                    .getBindingContext("ODataV2")
+                    .getObject().ID;
+
                 oRouter.navTo("Product", {
-                    ProductId: window.encodeURIComponent(sProductId)
-                })
+                    ProductId: window.encodeURIComponent(sProductId),
+                });
+            },
+            
+            onOpenDeleteV4RecordFragment() {
+                MessageBox.confirm(this.i18n("selectRecordToDelete"), {
+
+                    actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
+                    
+                    emphasizedAction: MessageBox.Action.CANCEL,
+                    
+                    onClose: function(sAction) {
+                        if(sAction === MessageBox.Action.YES){
+                            this.onClickDeleteV4Record()
+                        }
+                    }.bind(this)
+                });
+            },
+
+            onClickDeleteV4Record() {
+                const oTable = this.byId("V4dataTable");
+                const aSelectedItems = oTable.getSelectedItems();
+            
+                const aSelectedItemIds = aSelectedItems.map((item) => {
+                    return item.getBindingContext("ODataV4").getObject().ID;
+                });
+                
+                if(aSelectedItems.length > 1){
+                    aSelectedItems.forEach((item) => {
+                        const oContext = item.getBindingContext("ODataV4");
+                        oContext.delete("Deletion");
+                    });
+                }else{
+                    aSelectedItems[0].getBindingContext("ODataV4").delete();
+                }
+                
+                const oModel = this.getOwnerComponent().getModel("ODataV4");
+                const oViewModel = this.getModel("viewModel");
+
+                oViewModel.setProperty("/enableDeleteBtn", false)
+
+                oModel
+                    .submitBatch("Deletion")
+                    .then(() => {
+                        MessageToast.show(this.i18n('recordSuccessfullyDeleted', [aSelectedItemIds.join(", ")]));
+                    })
+                    .catch(() => {
+                        MessageBox.error(this.i18n("errorMessage"));
+                    });
+            },
+
+            onTableItemSelected() {
+                const oModel = this.getModel("viewModel");
+                const oTable = this.byId("V4dataTable");
+                const aSelectedItems = oTable.getSelectedItems();
+                
+                if(aSelectedItems.length === 0){
+                    oModel.setProperty("/enableDeleteBtn", false)
+                    return;
+                }
+
+                oModel.setProperty("/enableDeleteBtn", true)
             }
         });
     }
