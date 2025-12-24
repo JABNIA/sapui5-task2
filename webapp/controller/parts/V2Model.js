@@ -35,8 +35,8 @@ sap.ui.define(
       },
 
       onDeleteRecordButtonClick() {
-        MessageBox.confirm("Are you sure you want to remove this Record?", {
-          title: "Confirm Deletion",
+        MessageBox.confirm(this.getI18n("deleteRecordWarningMessage"), {
+          title: this.getI18n("confirmDeletion"),
           onClose: (sAction) => {
             if ((sAction = sap.m.MessageBox.Action.YES)) this._deleteV2Record();
           },
@@ -60,14 +60,14 @@ sap.ui.define(
           oModel.remove(sPath, {
             success: () => {
               const oBundle = this.getView()
-                .getModel("i18n")
+                .getModel("getI18n")
                 .getResourceBundle();
               const msg = oBundle.getText("successMessage");
               MessageToast.show(`${msg}`);
             },
             error: () => {
               const oBundle = this.getView()
-                .getModel("i18n")
+                .getModel("getI18n")
                 .getResourceBundle();
               const msg = oBundle.getText("errorMessage");
               MessageBox.error(`${msg}`);
@@ -81,7 +81,7 @@ sap.ui.define(
         const oModel = this.getModel("ODataV2");
         const oContext = oEvent.getSource().getBindingContext("ODataV2");
 
-        if (!this._validateODataModelRecord("addV2RecordDialog")) return;
+        if (!this._validateDialogControls("addV2RecordDialog")) return;
 
         oModel.submitChanges({
           success: () =>
@@ -121,39 +121,26 @@ sap.ui.define(
 
       onSorterSelect() {
         const oTable = this.byId("productTable");
-        const comboBoxValue = this.byId("sorterSelection").getValue();
-        let sorterValue = "";
-
-        switch (comboBoxValue) {
-          case this.i18n("products"):
-            sorterValue = "Name";
-            break;
-          case this.i18n("description"):
-            sorterValue = "Description";
-            break;
-          case this.i18n("releaseDate"):
-            sorterValue = "ReleaseDate";
-            break;
-          case this.i18n("discontinuedDate"):
-            sorterValue = "DiscontinuedDate";
-            break;
-          case this.i18n("rating"):
-            sorterValue = "Rating";
-            break;
-          case this.i18n("price"):
-            sorterValue = "Price";
-            break;
-          default:
-            sorterValue = "";
-            break;
-        }
+        const sSelectedKey = this.byId("sorterSelection").getSelectedKey();
 
         const oSorter = new Sorter({
-          path: sorterValue,
+          path: sSelectedKey,
           descending: true,
         });
 
         oTable.getBinding("items").sort(oSorter);
+      },
+
+      onCloseV2ModelAddRecordDialog(oEvent) {
+        const oModel = this.getModel("ODataV2");
+        const oContext = oEvent.getSource().getBindingContext("ODataV2");
+        const resetPath = oContext ? oContext.getPath() : null;
+        const oEditMode = this.getModel("viewModel");
+        oEditMode.setProperty("/editMode", false);
+        oModel.resetChanges([resetPath]);
+
+        this._clearValueState("addV2RecordDialog");
+        this.oAddV2RecordDialog.close();
       },
     };
   }

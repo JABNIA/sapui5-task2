@@ -6,16 +6,16 @@ sap.ui.define(
     return {
       onOpenDeleteV4RecordFragment() {
         console.log(MessageBox.Action.YES);
-        MessageBox.confirm(this.i18n("selectRecordToDelete"), {
+        MessageBox.confirm(this.getI18n("selectRecordToDelete"), {
           actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
 
           emphasizedAction: MessageBox.Action.CANCEL,
 
-          onClose: function (sAction) {
+          onClose: (sAction) => {
             if (sAction === MessageBox.Action.YES) {
               this.onClickDeleteV4Record();
             }
-          }.bind(this),
+          },
         });
       },
 
@@ -45,13 +45,13 @@ sap.ui.define(
           .submitBatch("Deletion")
           .then(() => {
             MessageToast.show(
-              this.i18n("recordSuccessfullyDeleted", [
+              this.getI18n("recordSuccessfullyDeleted", [
                 aSelectedItemIds.join(", "),
               ])
             );
           })
           .catch(() => {
-            MessageBox.error(this.i18n("errorMessage"));
+            MessageBox.error(this.getI18n("errorMessage"));
           });
       },
 
@@ -76,7 +76,6 @@ sap.ui.define(
         const editMode = this.getModel("viewModel").getProperty("/editMode");
 
         if (editMode) {
-          console.log(editMode);
           const oContext = oEvent.getSource().getBindingContext("ODataV4");
           this.oAddV4RecordDialog.setBindingContext(oContext, "ODataV4");
 
@@ -100,7 +99,7 @@ sap.ui.define(
           .getParent()
           .getBindingContext("ODataV4");
 
-        if (!this._validateODataModelRecord("addV4RecordDialog")) return;
+        if (!this._validateDialogControls("addV4RecordDialog")) return;
 
         oModel.submitBatch("newEntityCreation");
         this.oAddV4RecordDialog.close();
@@ -112,6 +111,14 @@ sap.ui.define(
         viewModel.setProperty("/editMode", true);
 
         this.onOpenAddV4RecordDialog(oEvent);
+      },
+
+      onCloseV4ModelAddRecordDialog() {
+        const oModel = this.getOwnerComponent().getModel("ODataV4");
+
+        oModel.resetChanges("newEntityCreation");
+        this.oAddV4RecordDialog.close();
+        this._clearValueState("addV4RecordDialog");
       },
     };
   }

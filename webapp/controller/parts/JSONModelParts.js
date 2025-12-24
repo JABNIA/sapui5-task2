@@ -1,6 +1,6 @@
 sap.ui.define(
-  ["sap/ui/model/Filter", "sap/ui/model/FilterOperator"],
-  (Filter, FilterOperator) => {
+  ["sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/m/MessageBox"],
+  (Filter, FilterOperator, MessageBox) => {
     "use strict";
     return {
       async onOpenAddRecordDialog() {
@@ -15,68 +15,6 @@ sap.ui.define(
           model: "viewModel",
         });
         this.oAddRecordDialog.open();
-      },
-
-      validateJSONModelRecord() {
-        const aDialogInputs = this.byId("addRecordDialog")
-          .getContent()[0]
-          .getItems()
-          .filter((oControl) => {
-            if (oControl.getRequired()) return oControl;
-          });
-        let bIsValid = true;
-
-        aDialogInputs.forEach((oControl) => {
-          let bIsControlValid;
-          if (oControl.isA("sap.m.Input")) {
-            if (
-              oControl.getLabels()[0].getText() ===
-              this.i18n("enterAvailableQuantity")
-            ) {
-              bIsControlValid = this._validateQuantityField(oControl);
-            }
-            bIsControlValid = this._validateInputField(oControl);
-          }
-          if (oControl.isA("sap.m.DatePicker")) {
-            bIsControlValid = this._validateInputField(oControl);
-          }
-          console.log(bIsControlValid);
-
-          if (!bIsControlValid) bIsValid = false;
-        });
-
-        return bIsValid;
-      },
-
-      _validateInputField(oControl) {
-        const bValid = oControl.getValue();
-        if (!bValid) {
-          oControl.setValueState("Error");
-        } else {
-          oControl.setValueState("None");
-        }
-        return bValid;
-      },
-
-      _validateQuantityField(oControl) {
-        const bValid = oControl.getValue();
-
-        if (!bValid) {
-          oControl.setValueState("Error");
-        } else {
-          oControl.setValueState("None");
-        }
-        return bValid;
-      },
-
-      onEnterInputValueChange(oEvent) {
-        const sInputValue = oEvent.getSource().getValue();
-
-        if (!sInputValue) {
-          oEvent.getSource().setValueState("Error");
-        } else {
-          oEvent.getSource().setValueState("None");
-        }
       },
 
       _setNewEmptyObject() {
@@ -98,7 +36,7 @@ sap.ui.define(
 
         const oNewRow = this.getModel("viewModel").getProperty("/newObject");
 
-        if (!this.validateJSONModelRecord()) return;
+        if (!this._validateDialogControls("addRecordDialog")) return;
 
         aBooks.push(oNewRow);
         oModel.setProperty("/books", aBooks);
@@ -112,10 +50,10 @@ sap.ui.define(
           return item.getBindingContext("Book").getObject().id;
         });
 
-        if (oSelectedItemsId.length === 0) {
+        if (!oSelectedItemsId.length) {
           this.oDeleteDialog.close();
 
-          alert("First please select Record You want to delete");
+          MessageBox.error(this.getI18n("deletionWhenNothingIsSelected"));
 
           return;
         }
@@ -151,16 +89,16 @@ sap.ui.define(
       },
 
       onEditTitle(oEvent) {
-        const bookId = oEvent
+        const sBookId = oEvent
           .getSource()
           .getBindingContext("Book")
-          .getObject().id;
+          .getObject("id");
 
         this.getModel("viewModel").setProperty("/titleEdit", {
           isVisible: !this.getModel("viewModel").getProperty(
             "/titleEdit/isVisible"
           ),
-          id: bookId,
+          id: sBookId,
         });
       },
 
@@ -170,6 +108,15 @@ sap.ui.define(
         });
 
         this.oDeleteDialog.open();
+      },
+
+      onCloseJSONModelDeleteRecordDialog() {
+        this.oDeleteDialog.close();
+      },
+
+      onCloseJSONModelAddRecordDialog() {
+        this.oAddRecordDialog.close();
+        this._clearValueState("addRecordDialog");
       },
     };
   }

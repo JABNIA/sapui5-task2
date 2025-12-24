@@ -34,7 +34,7 @@ sap.ui.define(
           });
 
           //add new model values here
-          const oViewModel = new JSONModel({
+          this._oViewModel = new JSONModel({
             titleEdit: { isVisible: false, id: "" },
             editMode: false,
             selectedTab: "",
@@ -43,43 +43,18 @@ sap.ui.define(
             enableDeleteBtn: false,
           });
 
-          this.getView().setModel(oViewModel, "viewModel");
+          this.getView().setModel(this._oViewModel, "viewModel");
 
-          const oHhashParameter = HashChanger.getInstance();
-
-          if (oHhashParameter) {
-            const tabKey = oHhashParameter.getHash().substring(4);
-            oViewModel.setProperty("/selectedTab", tabKey);
-          }
+          this.getOwnerComponent()
+            .getRouter()
+            .attachRouteMatched(this._onPatternMatched, this);
         },
 
-        onCloseJSONModelDeleteRecordDialog() {
-          this.oDeleteDialog.close();
-        },
-
-        onCloseJSONModelAddRecordDialog() {
-          this.oAddRecordDialog.close();
-          this._clearValueState("addRecordDialog");
-        },
-
-        onCloseV2ModelAddRecordDialog(oEvent) {
-          const oModel = this.getModel("ODataV2");
-          const oContext = oEvent.getSource().getBindingContext("ODataV2");
-          const resetPath = oContext ? oContext.getPath() : null;
-          const oEditMode = this.getModel("viewModel");
-          oEditMode.setProperty("/editMode", false);
-          oModel.resetChanges([resetPath]);
-
-          this._clearValueState("addV2RecordDialog");
-          this.oAddV2RecordDialog.close();
-        },
-
-        onCloseV4ModelAddRecordDialog() {
-          const oModel = this.getOwnerComponent().getModel("ODataV4");
-
-          oModel.resetChanges("newEntityCreation");
-          this.oAddV4RecordDialog.close();
-          this._clearValueState("addV4RecordDialog");
+        _onPatternMatched(oEvent) {
+          this._oViewModel.setProperty(
+            "/selectedTab",
+            oEvent.getParameter("arguments")?.tabKey
+          );
         },
 
         onChangeTabIconTabBar(oEvent) {

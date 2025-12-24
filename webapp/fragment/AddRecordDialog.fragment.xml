@@ -21,7 +21,7 @@
                 type="Text"
                 value="{viewModel>/newObject/name}"
                 required="true"
-                change=".onEnterInputValueChange"
+                change=".onInputFieldValueChange"
                 valueStateText="{i18n>bookNameInputValueState}"
             />
             <Label
@@ -33,7 +33,7 @@
                 type="Text"
                 value="{viewModel>/newObject/author}"
                 required="true"
-                change=".onEnterInputValueChange"
+                change=".onInputFieldValueChange"
                 valueStateText="{i18n>bookAuthorInputValueState}"
             />
             <Label
@@ -45,7 +45,7 @@
                 type="Text"
                 value="{viewModel>/newObject/genre}"
                 required="true"
-                change=".onEnterInputValueChange"
+                change=".onInputFieldValueChange"
                 valueStateText="{i18n>bookGenreInputValueState}"
             />
             <Label
@@ -54,9 +54,12 @@
             />
             <DatePicker
                 id="bookReleaseDate"
-                value="{viewModel>/newObject/releasedate}"
+                value="{
+                path: 'viewModel>/newObject/releasedate',
+                type: 'sap.ui.model.odata.type.DateTime'
+                }"
                 required="true"
-                change=".onEnterInputValueChange"
+                change=".onInputFieldValueChange"
                 valueStateText="{i18n>bookeReleaseDateValueState}"
             />
             <Label
@@ -68,7 +71,7 @@
                 type="Number"
                 value="{viewModel>/newObject/availablequantity}"
                 required="true"
-                change=".onEnterInputValueChange"
+                change=".onInputFieldValueChange"
                 valueStateText="{i18n>bookAvailableQuantityValueState}"
             />
         </HBox>
