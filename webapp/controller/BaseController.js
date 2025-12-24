@@ -1,104 +1,110 @@
 sap.ui.define(
-    ["sap/ui/core/mvc/Controller", "sap/m/MessageToast"],
-    (Controller, MessageToast) => {
-        return Controller.extend("project1.controller.BaseController", {
-            getModel: function (sName) {
-                return this.getView().getModel(sName);
-            },
-            i18n: function (sText, sIds) {
-                return this.getView()
-                    .getModel("i18n")
-                    .getResourceBundle()
-                    .getText(sText, sIds);
-            },
-            validateJSONModelRecord: function (obj){
-                    if (obj.name === "") {
-                        MessageToast.show(this.i18n("warningNameField"));
-                        return false;
-                    }else if (obj.author === "") {
-                        MessageToast.show(this.i18n("warningAuthorField"));
-                        return false;
-                    }else if (obj.genre === "") {
-                        MessageToast.show(this.i18n("warningGenreField"));
-                        return false;
-                    }else if (obj.releasedate === "") {
-                        MessageToast.show(this.i18n("warningReleaseDateField"));
-                        return false;
-                    }else if (obj.availablequantity === null) {
-                        MessageToast.show(this.i18n("warningAvailableQuantityField"));
-                        return false;
-                    }else {
-                        return true;
-                    }
-                },
-            validateV2Record: function (obj) {
-                if (!obj.Name) {
-                    MessageToast.show(this.i18n("pleaseEnterProductName"));
-                    this.byId("ProductName").setValueState("Error");
-                    this.byId("ProductName").setValueStateText(
-                        this.i18n("ProductNameRequired")
-                    );
-                    return false;
-                } else if (!obj.Description) {
-                    MessageToast.show(
-                        this.i18n("pleaseEnterProductDescription")
-                    );
-                    this.byId("ProductDescription").setValueState("Error");
-                    this.byId("ProductDescription").setValueStateText(
-                        this.i18n("ProductDescriptionRequired")
-                    );
-                    this.byId("ProductName").setValueState("None");
-                    return false;
-                } else if (obj.ReleaseDate === null) {
-                    MessageToast.show(
-                        this.i18n("pleaseEnterProductReleaseDate")
-                    );
-                    this.byId("ProductReleaseDate").setValueState("Error");
-                    this.byId("ProductReleaseDate").setValueStateText(
-                        this.i18n("ProductReleaseDateRequired")
-                    );
-                    this.byId("ProductDescription").setValueState("None");
-                    return false;
-                } else if (obj.Rating === null || obj.Rating === "") {
-                    MessageToast.show(this.i18n("pleaseEnterProductRating"));
-                    this.byId("ProductRating").setValueState("Error");
-                    this.byId("ProductRating").setValueStateText(
-                        this.i18n("ProductRatingRequired")
-                    );
-                    this.byId("ProductReleaseDate").setValueState("None");
-                    return false;
-                } else if (obj.Rating > 5 || obj.Rating < 0) {
-                    MessageToast.show(this.i18n("pleaseEnterCorrectRating"));
-                    this.byId("ProductRating").setValueState("Error");
-                    this.byId("ProductRating").setValueStateText(
-                        this.i18n("pleaseEnterCorrectRating")
-                    );
-                    return false;
-                } else if (!obj.Price === 0 || obj.Price < 0) {
-                    MessageToast.show(this.i18n("pleaseEnterProductPrice"));
-                    this.byId("ProductPrice").setValueState("Error");
-                    this.byId("ProductPrice").setValueStateText(
-                        this.i18n("ProductPriceRequired")
-                    );
-                    this.byId("ProductRating").setValueState("None");
-                    return false;
-                } else if (obj.Price === null || obj.Price === 0) {
-                    MessageToast.show(this.i18n("priceCanNotBeZero"));
-                    this.byId("ProductPrice").setValueState("Error");
-                    this.byId("ProductPrice").setValueStateText(
-                        this.i18n("priceCanNotBeZero")
-                    );
-                    this.byId("ProductRating").setValueState("None");
-                    return false;
-                } else {
-                    this.byId("ProductName").setValueState("None");
-                    this.byId("ProductDescription").setValueState("None");
-                    this.byId("ProductReleaseDate").setValueState("None");
-                    this.byId("ProductRating").setValueState("None");
-                    this.byId("ProductPrice").setValueState("None");
-                    return true;
-                }
-            },
+  ["sap/ui/core/mvc/Controller", "sap/m/MessageToast"],
+  (Controller, MessageToast) => {
+    return Controller.extend("project1.controller.BaseController", {
+      getModel: function (sName) {
+        return this.getView().getModel(sName);
+      },
+      i18n: function (sText, sIds) {
+        return this.getView()
+          .getModel("i18n")
+          .getResourceBundle()
+          .getText(sText, sIds);
+      },
+
+      _validateODataModelRecord(sControlID) {
+        const aAddOdataInputs = this.byId(sControlID)
+          .getContent()[0]
+          .getItems()
+          .filter((oControl) => {
+            if (oControl.getRequired()) return oControl;
+          });
+        let bIsValid = true;
+
+        aAddOdataInputs.forEach((oControl) => {
+          let bValidValue;
+          if (oControl.isA("sap.m.Input")) {
+            if (oControl.getType() === "Number") {
+              bValidValue = this._validateQuantityInputs(oControl);
+            } else {
+              bValidValue = this._validateInput(oControl);
+            }
+          }
+          if (oControl.isA("sap.m.DatePicker")) {
+            bValidValue = this._validateInput(oControl);
+          }
+
+          if (!bValidValue) bIsValid = false;
         });
-    }
+        return bIsValid;
+      },
+
+      _validateInput(oControl) {
+        const sValue = oControl.getValue();
+
+        if (!sValue) {
+          oControl.setValueState("Error");
+        } else {
+          oControl.setValueState("None");
+        }
+        return sValue;
+      },
+
+      _validateQuantityInputs(oControl) {
+        const sValue = oControl.getValue();
+        let bIsValid = true;
+        if (
+          oControl.getLabels()[0].getText() === this.i18n("EnterProductRating")
+        ) {
+          if (Number(sValue) > 0 && Number(sValue) <= 5) {
+            console.log(oControl);
+            oControl.setValueState("None");
+          } else {
+            oControl.setValueState("Error");
+            bIsValid = false;
+          }
+        } else if (
+          oControl.getLabels()[0].getText() === this.i18n("EnterProductPrice")
+        ) {
+          if (Number(sValue) <= 0) {
+            console.log(typeof sValue);
+            oControl.setValueState("Error");
+            bIsValid = false;
+          } else {
+            oControl.setValueState("None");
+          }
+        }
+        return bIsValid;
+      },
+
+      _clearValueState(sControlID) {
+        const aAddOdataInputs = this.byId(sControlID)
+          .getContent()[0]
+          .getItems()
+          .filter((oControl) => {
+            if (oControl.getRequired()) return oControl;
+          });
+        aAddOdataInputs.forEach((oControl) => {
+          oControl.setValueState("None");
+        });
+      },
+
+      onInputFieldValueChange(oEvent) {
+        const oControl = oEvent.getSource();
+        if (oControl.getType() === "Number") {
+          if (this._validateQuantityInputs(oControl)) {
+            oControl.setValueState("None");
+          } else {
+            oControl.setValueState("Error");
+          }
+        } else {
+          if (!this._validateInput(oControl)) {
+            oControl.setValueState("Error");
+          } else {
+            oControl.setValueState("None");
+          }
+        }
+      },
+    });
+  }
 );

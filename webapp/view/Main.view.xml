@@ -9,7 +9,7 @@
         <IconTabBar
             id="textBar"
             class="sapUiResponsivePaddings"
-            select=".onTabPress"
+            select=".onChangeTabIconTabBar"
             selectedKey="{viewModel>/selectedTab}"
         >
             <items>
@@ -18,9 +18,9 @@
                         id="bookTable"
                         mode="MultiSelect"
                         items="{
-                            path: 'Book>/books'
-                        }"
-                    >
+                                path: 'Book>/books'
+                            }"
+                        >
                         <headerToolbar>
                             <Toolbar>
                                 <Title text="{i18n>bookList}" />
@@ -41,8 +41,8 @@
                                 <Select
                                     id="genreSelect"
                                     items="{
-                            path: 'viewModel>/genres'
-                        }"
+                                        path: 'viewModel>/genres'
+                                    }"
                                     width="10%"
                                 >
                                     <core:Item
@@ -98,12 +98,12 @@
                                     <HBox>
                                         <Text
                                             core:require="{
-                                Formatter: 'project1/model/formatter'
-                            }"
-                                            text="{
-                                path: 'Book>releasedate',
-                                formatter: 'Formatter.formatDate.bind($controller)'
-                            }"
+                                                Formatter: 'project1/model/formatter'
+                                            }"
+                                                            text="{
+                                                path: 'Book>releasedate',
+                                                formatter: 'Formatter.formatDate.bind($controller)'
+                                            }"
                                         />
                                     </HBox>
                                     <HBox>
@@ -141,7 +141,7 @@
                                 />
                                 <Button
                                     text="{i18n>deleteRecord}"
-                                    press=".onDeleteV2Record"
+                                    press=".onDeleteRecordButtonClick"
                                 />
                                 <ToolbarSeparator />
                                 <Input
@@ -218,7 +218,7 @@
                         <items>
                             <ColumnListItem
                             type="Navigation"
-                            press=".onProductPage"
+                            press=".onNavigateToProductPage"
                             >
                                 <HBox>
                                     <Text text="{ODataV2>Name}" />
@@ -241,7 +241,7 @@
                                 <HBox>
                                     <Button
                                         text="edit"
-                                        press=".onOpenEditV2Record"
+                                        press=".onOpenEditV2ModelRecord"
                                         app:recordId="{ODataV2>ID}"
                                     />
                                 </HBox>
@@ -327,7 +327,7 @@
                                     <Text text="{ODataV4>Price}" />
                                 </HBox>
                                  <HBox>
-                                    <Button text="Edit Record" press=".onEditV4Record"/>
+                                    <Button text="Edit Record" press=".onEditV4ModelRecord"/>
                                 </HBox>
                             </ColumnListItem>
                         </items>

@@ -20,6 +20,9 @@
                 id="bookName"
                 type="Text"
                 value="{viewModel>/newObject/name}"
+                required="true"
+                change=".onEnterInputValueChange"
+                valueStateText="{i18n>bookNameInputValueState}"
             />
             <Label
                 labelFor="bookAuthor"
@@ -29,6 +32,9 @@
                 id="bookAuthor"
                 type="Text"
                 value="{viewModel>/newObject/author}"
+                required="true"
+                change=".onEnterInputValueChange"
+                valueStateText="{i18n>bookAuthorInputValueState}"
             />
             <Label
                 labelFor="bookGenre"
@@ -38,15 +44,20 @@
                 id="bookGenre"
                 type="Text"
                 value="{viewModel>/newObject/genre}"
+                required="true"
+                change=".onEnterInputValueChange"
+                valueStateText="{i18n>bookGenreInputValueState}"
             />
             <Label
                 labelFor="bookReleaseDate"
                 text="{i18n>enterReleaseDate}"
             />
-            <Input
+            <DatePicker
                 id="bookReleaseDate"
-                type="Date"
                 value="{viewModel>/newObject/releasedate}"
+                required="true"
+                change=".onEnterInputValueChange"
+                valueStateText="{i18n>bookeReleaseDateValueState}"
             />
             <Label
                 labelFor="bookAvailableQuantity"
@@ -56,19 +67,21 @@
                 id="bookAvailableQuantity"
                 type="Number"
                 value="{viewModel>/newObject/availablequantity}"
+                required="true"
+                change=".onEnterInputValueChange"
+                valueStateText="{i18n>bookAvailableQuantityValueState}"
             />
         </HBox>
         <beginButton>
             <Button
                 text="{i18n>addRecord}"
-                press=".onAddRecord"
+                press=".onAddRecordJSONmodel"
             />
         </beginButton>
         <endButton>
             <Button
                 text="{i18n>cancel}"
-                press=".onCloseDialog"
-                app:dialogType="AddRecord"
+                press=".onCloseJSONModelAddRecordDialog"
             />
         </endButton>
     </Dialog>

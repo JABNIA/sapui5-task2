@@ -20,6 +20,9 @@
                 id="ProductName"
                 type="Text"
                 value="{ODataV2>Name}"
+                required="true"
+                valueStateText="{i18n>productNameInputValueState}"
+                change=".onInputFieldValueChange"
             />
             <Label
                 labelFor="ProductDescription"
@@ -29,6 +32,9 @@
                 id="ProductDescription"
                 type="Text"
                 value="{ODataV2>Description}"
+                required="true"
+                valueStateText="{i18n>productDescriptionInputValueState}"
+                change=".onInputFieldValueChange"
             />
             <Label
                 labelFor="ProductReleaseDate"
@@ -40,6 +46,9 @@
                 path: 'ODataV2>ReleaseDate',
                 type: 'sap.ui.model.odata.type.DateTime'
                 }"
+                required="true"
+                valueStateText="{i18n>productReleaseDateInputValueState}"
+                change=".onInputFieldValueChange"
             />
             <Label
                 labelFor="ProductDiscontinuedDate"
@@ -51,6 +60,8 @@
                 path: 'ODataV2>DiscontinuedDate',
                 type: 'sap.ui.model.odata.type.DateTime'
                 }"
+                valueStateText="{i18n>}"
+                change=".onInputFieldValueChange"
             />
             <Label
                 labelFor="ProductRating"
@@ -60,6 +71,9 @@
                 id="ProductRating"
                 type="Number"
                 value="{ODataV2>Rating}"
+                required="true"
+                valueStateText="{i18n>productRatungInputValueState}"
+                change=".onInputFieldValueChange"
             />
             <Label
                 labelFor="ProductPrice"
@@ -69,20 +83,22 @@
                 id="ProductPrice"
                 type="Number"
                 value="{ODataV2>Price}"
+                required="true"
+                valueStateText="{i18n>productPriceInputValueState}"
+                change=".onInputFieldValueChange"
             />
         </HBox>
         <beginButton>
             <Button
                 id="actionButton"
                 text="{i18n>saveRecord}"
-                press=".onAddV2Record"
+                press=".onAddV2ModelRecord"
             />
         </beginButton>
         <endButton>
             <Button
                 text="{i18n>cancel}"
-                press=".onCloseDialog"
-                app:dialogType="AddV2Record"
+                press=".onCloseV2ModelAddRecordDialog"
             />
         </endButton>
     </Dialog>
