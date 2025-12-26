@@ -20,6 +20,7 @@
                         items="{
                                 path: 'Book>/books'
                             }"
+                        selectionChange=".onTableItemSelected"
                         >
                         <headerToolbar>
                             <Toolbar>
@@ -31,6 +32,7 @@
                                 <Button
                                     text="{i18n>deleteRecord}"
                                     press=".onOpenDeleteDialog"
+                                    enabled="{viewModel>/enableDeleteBtn}"
                                 />
 
                                 <Input
@@ -132,6 +134,7 @@
                             expand: 'Supplier'
                         }
                     }"
+                        selectionChange=".onTableItemSelected"
                     >
                         <headerToolbar>
                             <Toolbar>
@@ -142,6 +145,7 @@
                                 <Button
                                     text="{i18n>deleteRecord}"
                                     press=".onDeleteRecordButtonClick"
+                                    enabled="{viewModel>/enableDeleteBtn}"
                                 />
                                 <ToolbarSeparator />
                                 <Input

@@ -5,7 +5,6 @@ sap.ui.define(
 
     return {
       onOpenDeleteV4RecordFragment() {
-        console.log(MessageBox.Action.YES);
         MessageBox.confirm(this.getI18n("selectRecordToDelete"), {
           actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
 
@@ -24,7 +23,7 @@ sap.ui.define(
         const aSelectedItems = oTable.getSelectedItems();
 
         const aSelectedItemIds = aSelectedItems.map((item) => {
-          return item.getBindingContext("ODataV4").getObject().ID;
+          return item.getBindingContext("ODataV4").getObject("ID");
         });
 
         if (aSelectedItems.length > 1) {
@@ -44,11 +43,11 @@ sap.ui.define(
         oModel
           .submitBatch("Deletion")
           .then(() => {
-            MessageToast.show(
-              this.getI18n("recordSuccessfullyDeleted", [
-                aSelectedItemIds.join(", "),
-              ])
+            this._showMessageForSuccessfullEvents(
+              "recordSuccessfullyDeleted",
+              aSelectedItemIds.join(", ")
             );
+            console.log("wht");
           })
           .catch(() => {
             MessageBox.error(this.getI18n("errorMessage"));
@@ -99,10 +98,14 @@ sap.ui.define(
           .getParent()
           .getBindingContext("ODataV4");
 
-        if (!this._validateDialogControls("addV4RecordDialog")) return;
+        if (
+          !this._validateControlsOfNewRecordCreationDialogs("addV4RecordDialog")
+        )
+          return;
 
         oModel.submitBatch("newEntityCreation");
         this.oAddV4RecordDialog.close();
+        this._showMessageForSuccessfullEvents("Record succesfully added");
       },
 
       onEditV4ModelRecord(oEvent) {

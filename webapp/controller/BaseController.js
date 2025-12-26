@@ -10,11 +10,11 @@ sap.ui.define(
         return this.getView()
           .getModel("i18n")
           .getResourceBundle()
-          .getText(sText, sIds);
+          .getText(sText, [sIds]);
       },
 
-      _validateDialogControls(sControlID) {
-        const aAddOdataInputs = this.byId(sControlID)
+      _validateControlsOfNewRecordCreationDialogs(sControlID) {
+        const aAddRecordInputs = this.byId(sControlID)
           .getContent()[0]
           .getItems()
           .filter((oControl) => {
@@ -22,7 +22,7 @@ sap.ui.define(
           });
         let bIsValid = true;
 
-        aAddOdataInputs.forEach((oControl) => {
+        aAddRecordInputs.forEach((oControl) => {
           let bValidValue;
           if (oControl.isA("sap.m.Input")) {
             bValidValue = this._validateInput(oControl);
@@ -30,7 +30,6 @@ sap.ui.define(
           if (oControl.isA("sap.m.DatePicker")) {
             bValidValue = this._validateInput(oControl);
           }
-
           if (!bValidValue) bIsValid = false;
         });
         return bIsValid;
@@ -38,64 +37,35 @@ sap.ui.define(
 
       _validateInput(oControl) {
         const sValue = oControl.getValue();
-
+        let bIsValid = true;
+        //had to add this check because date picker would trew error and brake the execution
         if (!oControl.isA("sap.m.DatePicker")) {
           if (oControl.getType() === "Number") {
             if (
               oControl.getLabels()[0].getText() ===
               this.getI18n("EnterProductRating")
             ) {
-              if (Number(sValue) > 0 && Number(sValue) <= 5) {
-                console.log(oControl);
-                oControl.setValueState("None");
-              } else {
-                oControl.setValueState("Error");
+              if (Number(sValue) < 0 || Number(sValue) > 5) {
+                bIsValid = false;
               }
-            } else {
+            }
+            if (
+              oControl.getLabels()[0].getText() ===
+              this.getI18n("EnterProductPrice")
+            ) {
               if (Number(sValue) <= 0) {
-                oControl.setValueState("Error");
-              } else {
-                oControl.setValueState("None");
+                bIsValid = false;
               }
             }
           }
         }
 
-        if (!sValue) {
+        if (!sValue) bIsValid = false;
+
+        if (!bIsValid) {
           oControl.setValueState("Error");
         } else {
           oControl.setValueState("None");
-        }
-        return sValue;
-      },
-
-      _validateQuantityInputs(oControl) {
-        const sValue = oControl.getValue();
-        let bIsValid = true;
-
-        if (
-          oControl.getLabels()[0].getText() ===
-          this.getI18n("EnterProductRating")
-        ) {
-          if (Number(sValue) > 0 && Number(sValue) <= 5) {
-            console.log(oControl);
-            oControl.setValueState("None");
-          } else {
-            oControl.setValueState("Error");
-            bIsValid = false;
-          }
-        } else if (
-          oControl.getLabels()[0].getText() ===
-            this.getI18n("EnterProductPrice") ||
-          oControl.getLabels()[0].getText() ===
-            this.getI18n("enterAvailableQuantity")
-        ) {
-          if (Number(sValue) <= 0) {
-            oControl.setValueState("Error");
-            bIsValid = false;
-          } else {
-            oControl.setValueState("None");
-          }
         }
         return bIsValid;
       },
@@ -114,19 +84,27 @@ sap.ui.define(
 
       onInputFieldValueChange(oEvent) {
         const oControl = oEvent.getSource();
-        if (oControl.getType() === "Number") {
-          if (this._validateQuantityInputs(oControl)) {
-            oControl.setValueState("None");
-          } else {
-            oControl.setValueState("Error");
-          }
+
+        if (this._validateInput(oControl)) {
+          oControl.setValueState("None");
         } else {
-          if (!this._validateInput(oControl)) {
-            oControl.setValueState("Error");
-          } else {
-            oControl.setValueState("None");
-          }
+          oControl.setValueState("Error");
         }
+      },
+
+      onTableItemSelected(oEvent) {
+        const aTableListItems = oEvent.getSource().getSelectedItems();
+        const oModel = this.getModel("ViewModel");
+
+        if (!aTableListItems.length) {
+          this._oViewModel.setProperty("/enableDeleteBtn", false);
+        } else {
+          this._oViewModel.setProperty("/enableDeleteBtn", true);
+        }
+      },
+
+      _showMessageForSuccessfullEvents(sMessage, aIds) {
+        MessageToast.show(this.getI18n(sMessage, aIds));
       },
     });
   }

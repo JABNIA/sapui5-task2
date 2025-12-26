@@ -1,6 +1,11 @@
 sap.ui.define(
-  ["sap/ui/model/Filter", "sap/ui/model/FilterOperator", "sap/m/MessageBox"],
-  (Filter, FilterOperator, MessageBox) => {
+  [
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+    "sap/m/MessageBox",
+    "sap/m/MessageToast",
+  ],
+  (Filter, FilterOperator, MessageBox, MessageToast) => {
     "use strict";
     return {
       async onOpenAddRecordDialog() {
@@ -36,10 +41,14 @@ sap.ui.define(
 
         const oNewRow = this.getModel("viewModel").getProperty("/newObject");
 
-        if (!this._validateDialogControls("addRecordDialog")) return;
+        if (
+          !this._validateControlsOfNewRecordCreationDialogs("addRecordDialog")
+        )
+          return;
 
         aBooks.push(oNewRow);
         oModel.setProperty("/books", aBooks);
+        this._showMessageForSuccessfullEvents("Book Record successfully added");
         this.oAddRecordDialog.close();
       },
 
@@ -47,9 +56,9 @@ sap.ui.define(
         const oTable = this.getView().byId("bookTable");
         const oBooks = this.getModel("Book").getProperty("/books");
         const oSelectedItemsId = oTable.getSelectedItems().map((item) => {
-          return item.getBindingContext("Book").getObject().id;
+          return item.getBindingContext("Book").getObject("id");
         });
-
+        console.log(oSelectedItemsId);
         if (!oSelectedItemsId.length) {
           this.oDeleteDialog.close();
 
@@ -62,6 +71,11 @@ sap.ui.define(
         });
 
         const oModel = this.getOwnerComponent().getModel("Book");
+
+        this._showMessageForSuccessfullEvents(
+          "recordSuccessfullyDeleted",
+          oSelectedItemsId
+        );
 
         oModel.setProperty("/books", aFilteredBooks);
         oTable.removeSelections(true);

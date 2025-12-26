@@ -38,39 +38,31 @@ sap.ui.define(
         MessageBox.confirm(this.getI18n("deleteRecordWarningMessage"), {
           title: this.getI18n("confirmDeletion"),
           onClose: (sAction) => {
-            if ((sAction = sap.m.MessageBox.Action.YES)) this._deleteV2Record();
+            if ((sAction = MessageBox.Action.YES)) this._deleteV2Record();
           },
-          actions: [
-            sap.m.MessageBox.Action.YES,
-            sap.m.MessageBox.Action.CANCEL,
-          ],
+          actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
         });
       },
 
       _deleteV2Record() {
         const oTable = this.byId("productTable");
-        const itemIdArr = oTable.getSelectedItems().map((item) => {
+        const aItemId = oTable.getSelectedItems().map((item) => {
           return item.getBindingContext("ODataV2").getObject()["ID"];
         });
         const oModel = this.getModel("ODataV2");
 
-        itemIdArr.forEach((id) => {
+        aItemId.forEach((id) => {
           const sPath = `/Products(${id})`;
 
           oModel.remove(sPath, {
             success: () => {
-              const oBundle = this.getView()
-                .getModel("getI18n")
-                .getResourceBundle();
-              const msg = oBundle.getText("successMessage");
-              MessageToast.show(`${msg}`);
+              this._showMessageForSuccessfullEvents(
+                "recordSuccessfullyDeleted",
+                aItemId.join(", ")
+              );
             },
             error: () => {
-              const oBundle = this.getView()
-                .getModel("getI18n")
-                .getResourceBundle();
-              const msg = oBundle.getText("errorMessage");
-              MessageBox.error(`${msg}`);
+              MessageBox.error(this.getI18n("errorMessage"));
             },
           });
         });
@@ -81,11 +73,14 @@ sap.ui.define(
         const oModel = this.getModel("ODataV2");
         const oContext = oEvent.getSource().getBindingContext("ODataV2");
 
-        if (!this._validateDialogControls("addV2RecordDialog")) return;
+        if (
+          !this._validateControlsOfNewRecordCreationDialogs("addV2RecordDialog")
+        )
+          return;
 
         oModel.submitChanges({
           success: () =>
-            MessageToast.show(oBundle.getText("recordSuccessfullyAdded")),
+            _showMessageForSuccessfullEvents("recordSuccessfullyAdded"),
           error: () => MessageBox.error(oBundle.getText("errorMessage")),
         });
 

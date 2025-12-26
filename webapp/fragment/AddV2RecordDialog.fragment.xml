@@ -70,7 +70,14 @@
             <Input
                 id="ProductRating"
                 type="Number"
-                value="{ODataV2>Rating}"
+                value="{
+                    type: 'sap.ui.model.type.Integer',
+                    path: 'ODataV2>Rating',
+                    constraints: {
+                        minimum: 0,
+                        maximum: 5
+                    }
+                }"
                 required="true"
                 valueStateText="{i18n>productRatungInputValueState}"
                 change=".onInputFieldValueChange"
@@ -82,7 +89,14 @@
             <Input
                 id="ProductPrice"
                 type="Number"
-                value="{ODataV2>Price}"
+                value="{
+                    type: 'sap.ui.model.type.Float',
+                    path: 'ODataV2>Price',
+                    constraints: {
+                        minimum: 0,
+                        maximum: 10000
+                    }
+                }"
                 required="true"
                 valueStateText="{i18n>productPriceInputValueState}"
                 change=".onInputFieldValueChange"
