@@ -21,8 +21,7 @@
         <endButton>
             <Button
                 text="No"
-                press=".onCloseDialog"
-                app:dialogType="Delete"
+                press=".onCloseJSONModelDeleteRecordDialog"
             />
         </endButton>
     </Dialog>

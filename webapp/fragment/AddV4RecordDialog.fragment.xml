@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
     <Dialog
-        id="addV2RecordDialog"
+        id="addV4RecordDialog"
         title="{i18n>addNewProduct}"
         contentWidth="30%"
     >
@@ -13,106 +13,85 @@
         class="sapUiSmallMargin"
         >
             <Label
-                labelFor="ProductName"
+                labelFor="Product-Name"
                 text="{i18n>EnterProductName}"
             />
             <Input
-                id="ProductName"
+                id="Product-Name"
                 type="Text"
-                value="{ODataV2>Name}"
                 required="true"
+                value="{ODataV4>Name}"
                 valueStateText="{i18n>productNameInputValueState}"
                 change=".onInputFieldValueChange"
             />
             <Label
-                labelFor="ProductDescription"
+                labelFor="Product-Description"
                 text="{i18n>EnterProductDescription}"
             />
             <Input
-                id="ProductDescription"
+                id="Product-Description"
                 type="Text"
-                value="{ODataV2>Description}"
+                value="{ODataV4>Description}"
                 required="true"
                 valueStateText="{i18n>productDescriptionInputValueState}"
                 change=".onInputFieldValueChange"
             />
             <Label
-                labelFor="ProductReleaseDate"
+                labelFor="Product-ReleaseDate"
                 text="{i18n>EnterProductReleaseDate}"
             />
             <DatePicker
-                id="ProductReleaseDate"
-                value="{
-                path: 'ODataV2>ReleaseDate',
-                type: 'sap.ui.model.odata.type.DateTime'
-                }"
+                id="Product-ReleaseDate"
+                value="{ODataV4>ReleaseDate}"
                 required="true"
                 valueStateText="{i18n>productReleaseDateInputValueState}"
                 change=".onInputFieldValueChange"
             />
             <Label
-                labelFor="ProductDiscontinuedDate"
+                labelFor="Product-DiscontinuedDate"
                 text="{i18n>discontinuedDate}"
             />
             <DatePicker
-                id="ProductDiscontinuedDate"
-                value="{
-                path: 'ODataV2>DiscontinuedDate',
-                type: 'sap.ui.model.odata.type.DateTime'
-                }"
-                valueStateText="{i18n>}"
-                change=".onInputFieldValueChange"
+                id="Product-DiscontinuedDate"
+                value="{ODataV4>DiscontinuedDate}"
             />
             <Label
-                labelFor="ProductRating"
+                labelFor="Product-Rating"
                 text="{i18n>EnterProductRating}"
             />
             <Input
-                id="ProductRating"
+                id="Product-Rating"
                 type="Number"
-                value="{
-                    type: 'sap.ui.model.type.Integer',
-                    path: 'ODataV2>Rating',
-                    constraints: {
-                        minimum: 0,
-                        maximum: 5
-                    }
-                }"
                 required="true"
+                value="{ODataV4>Rating}"
                 valueStateText="{i18n>productRatungInputValueState}"
                 change=".onInputFieldValueChange"
             />
             <Label
-                labelFor="ProductPrice"
+                labelFor="Product-Price"
                 text="{i18n>EnterProductPrice}"
             />
             <Input
-                id="ProductPrice"
+                id="Product-Price"
                 type="Number"
-                value="{
-                    type: 'sap.ui.model.type.Float',
-                    path: 'ODataV2>Price',
-                    constraints: {
-                        minimum: 0,
-                        maximum: 10000
-                    }
-                }"
                 required="true"
+                value="{ODataV4>Price}"
                 valueStateText="{i18n>productPriceInputValueState}"
                 change=".onInputFieldValueChange"
             />
         </HBox>
         <beginButton>
             <Button
-                id="actionButton"
+                id="action-Button"
                 text="{i18n>saveRecord}"
-                press=".onAddV2ModelRecord"
+                press=".onAddV4ModelRecord"
+                app:id="addV4RecordDialog"
             />
         </beginButton>
         <endButton>
             <Button
                 text="{i18n>cancel}"
-                press=".onCloseV2ModelAddRecordDialog"
+                press=".onCloseV4ModelAddRecordDialog"
             />
         </endButton>
     </Dialog>
