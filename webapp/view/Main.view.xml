@@ -9,7 +9,7 @@
         <IconTabBar
             id="textBar"
             class="sapUiResponsivePaddings"
-            select=".onTabPress"
+            select=".onChangeTabIconTabBar"
             selectedKey="{viewModel>/selectedTab}"
         >
             <items>
@@ -18,9 +18,10 @@
                         id="bookTable"
                         mode="MultiSelect"
                         items="{
-                            path: 'Book>/books'
-                        }"
-                    >
+                                path: 'Book>/books'
+                            }"
+                        selectionChange=".onTableItemSelected"
+                        >
                         <headerToolbar>
                             <Toolbar>
                                 <Title text="{i18n>bookList}" />
@@ -31,6 +32,7 @@
                                 <Button
                                     text="{i18n>deleteRecord}"
                                     press=".onOpenDeleteDialog"
+                                    enabled="{viewModel>/enableDeleteBtn}"
                                 />
 
                                 <Input
@@ -41,8 +43,8 @@
                                 <Select
                                     id="genreSelect"
                                     items="{
-                            path: 'viewModel>/genres'
-                        }"
+                                        path: 'viewModel>/genres'
+                                    }"
                                     width="10%"
                                 >
                                     <core:Item
@@ -98,12 +100,12 @@
                                     <HBox>
                                         <Text
                                             core:require="{
-                                Formatter: 'project1/model/formatter'
-                            }"
-                                            text="{
-                                path: 'Book>releasedate',
-                                formatter: 'Formatter.formatDate.bind($controller)'
-                            }"
+                                                Formatter: 'project1/model/formatter'
+                                            }"
+                                                            text="{
+                                                path: 'Book>releasedate',
+                                                formatter: 'Formatter.formatDate.bind($controller)'
+                                            }"
                                         />
                                     </HBox>
                                     <HBox>
@@ -132,6 +134,7 @@
                             expand: 'Supplier'
                         }
                     }"
+                        selectionChange=".onTableItemSelected"
                     >
                         <headerToolbar>
                             <Toolbar>
@@ -141,7 +144,8 @@
                                 />
                                 <Button
                                     text="{i18n>deleteRecord}"
-                                    press=".onDeleteV2Record"
+                                    press=".onDeleteRecordButtonClick"
+                                    enabled="{viewModel>/enableDeleteBtn}"
                                 />
                                 <ToolbarSeparator />
                                 <Input
@@ -164,27 +168,27 @@
                                             text="{i18n>products}"
                                         />
                                         <core:Item
-                                            key="description"
+                                            key="Description"
                                             id="description"
                                             text="{i18n>description}"
                                         />
                                         <core:Item
-                                            key="releaseDate"
+                                            key="DeleaseDate"
                                             id="releaseDate"
                                             text="{i18n>releaseDate}"
                                         />
                                         <core:Item
-                                            key="discontiniueDate"
+                                            key="DiscontiniueDate"
                                             id="discontinuedDate"
                                             text="{i18n>discontinuedDate}"
                                         />
                                         <core:Item
-                                            key="rating"
+                                            key="Rating"
                                             id="rating"
                                             text="{i18n>rating}"
                                         />
                                         <core:Item
-                                            key="price"
+                                            key="Price"
                                             id="price"
                                             text="{i18n>price}"
                                         />
@@ -218,7 +222,7 @@
                         <items>
                             <ColumnListItem
                             type="Navigation"
-                            press=".onProductPage"
+                            press=".onNavigateToProductPage"
                             >
                                 <HBox>
                                     <Text text="{ODataV2>Name}" />
@@ -241,7 +245,7 @@
                                 <HBox>
                                     <Button
                                         text="edit"
-                                        press=".onOpenEditV2Record"
+                                        press=".onOpenEditV2ModelRecord"
                                         app:recordId="{ODataV2>ID}"
                                     />
                                 </HBox>
@@ -257,7 +261,8 @@
                             path: 'ODataV4>/Products',
                             parameters: {
                                 $count: true,
-                                $expand: 'Supplier'
+                                $expand: 'Supplier',
+                                $$updateGroupId: 'newEntityCreation'
                             }
                         }"
                         selectionChange=".onTableItemSelected"
@@ -266,7 +271,7 @@
                         <Toolbar>
                             <Button
                                 text="{i18n>addRecord}"
-                                press=".onOpenAddV4RecordFragment"
+                                press=".onOpenAddV4RecordDialog"
                             />
                             <Button
                                 text="{i18n>deleteRecord}"
@@ -298,6 +303,9 @@
                             <Column>
                                 <Text text="{i18n>price}" />
                             </Column>
+                            <Column>
+                                <Text text="{i18n>actionColumn}" />
+                            </Column>
                         </columns>
                         <items>
                             <ColumnListItem>
@@ -321,6 +329,9 @@
                                 </HBox>
                                 <HBox>
                                     <Text text="{ODataV4>Price}" />
+                                </HBox>
+                                 <HBox>
+                                    <Button text="Edit Record" press=".onEditV4ModelRecord"/>
                                 </HBox>
                             </ColumnListItem>
                         </items>

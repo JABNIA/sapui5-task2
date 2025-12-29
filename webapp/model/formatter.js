@@ -1,11 +1,14 @@
 sap.ui.define([], () => {
-    "use strict";
+  "use strict";
 
-    return {
-        formatDate(sDate) {
-            const oBundle = this.getView().getModel("i18n").getResourceBundle();
+  return {
+    formatDate(sDate) {
+      const oBundle = this.getView().getModel("i18n").getResourceBundle();
+      const nPublishedYear = new Date(sDate).getFullYear();
 
-            if (sDate !== null) return oBundle.getText("published", [sDate.substring(0, 4)]);
-        },
-    };
+      if (!sDate) return;
+
+      return oBundle.getText("published", [`${nPublishedYear}`]);
+    },
+  };
 });
